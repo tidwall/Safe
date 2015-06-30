@@ -51,7 +51,7 @@ public class Chan<T> : SequenceType {
         closed = true
         broadcast()
     }
-    public func send(msg: T) {
+    internal func send(msg: T) {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         if closed {
@@ -63,7 +63,7 @@ public class Chan<T> : SequenceType {
             cond.wait()
         }
     }
-    public func receive(wait: Bool = true) -> (msg : T?, closed : Bool, ready : Bool) {
+    internal func receive(wait: Bool = true) -> (msg : T?, closed : Bool, ready : Bool) {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         for ;; {

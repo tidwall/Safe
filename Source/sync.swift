@@ -75,34 +75,36 @@ public class Cond {
 public class Once {
     private var mutex = Mutex()
     private var oncer = false
-    func doit(closure:()->()){
+    public init() {}
+    public func doit(closure:()->()){
         mutex.lock()
+        defer { mutex.unlock() }
         if oncer{
-            mutex.unlock()
             return
         }
         oncer = true
         closure()
-        mutex.unlock()
     }
 }
 public class WaitGroup {
     private var cond = Cond(Mutex())
     private var count = 0
-    func add(delta : Int){
+    public init() {}
+    public func add(delta : Int){
         cond.mutex.lock()
+        defer { cond.mutex.unlock() }
         count += delta
         if count < 0 {
             fatalError("sync: negative WaitGroup counter")
         }
         cond.broadcast()
-        cond.mutex.unlock()
     }
-    func done(){
+    public func done(){
         add(-1)
     }
-    func wait(){
+    public func wait(){
         cond.mutex.lock()
+        defer { cond.mutex.unlock() }
         while count > 0 {
             cond.wait()
         }
