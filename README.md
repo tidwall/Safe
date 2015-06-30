@@ -129,7 +129,36 @@ _select {
 }
 ```
 
+## Mutex, Cond, Once, WaitGroup
 
+Incredibly useful sync APIs.
 
+#### Mutex
+
+```swift
+let m = Mutex()
+m.lock()           
+m.unlock()         
+m.lock {
+    // this block is locked
+}
+```
+```swift
+let c = Cond(Mutex())
+c.wait()                // wait for signal.
+c.wait(0.25)            // wait for signal or 250ms to pass.
+c.signal()              // signal to one wait.
+c.broadcast()           // signal to all waits.
+```
+
+```swift
+func f(){
+    print("hey there")
+}
+
+let o = Once()
+o.doit(f)               // runs once
+o.doit(f)               // noop: cannot run twice
+```
 
 
