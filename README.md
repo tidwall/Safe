@@ -29,7 +29,7 @@ print("\(anum) \(res)")   // prints '115 3'.
 
 ## Dispatch
 
-Safe adds an uncomplicated method for dispatching threads operation. 
+Safe adds an uncomplicated method for dispatching threads. 
 
 ```swift
 dispatch {
@@ -37,3 +37,37 @@ dispatch {
 }
 print("Foreground")
 ```
+
+## Channels
+
+A new `Chan<T>` class provides a clean and simple model for concurrently sharing objects. `Chan<T>` is strictly modeled after [Go channels](https://golang.org/doc/effective_go.html#channels).
+
+[Sharing Memory by Communicating](http://blog.golang.org/share-memory-by-communicating)
+
+##### Example: 
+```swift
+let jobs = Chan<Int>(5)  // buffered channel
+let done = Chan<Bool>()  // unbuffered channel
+
+dispatch {
+    for ;; {
+        if let j = <-jobs {
+            print("received job \(j)")
+        } else {
+            print("received all jobs")
+            done <- true
+            return
+        }
+    }
+}
+
+for var j = 1; j <= 3; j++ {
+    jobs <- j
+    print("sent job \(j)")
+}
+jobs.close()
+print("sent all jobs")
+
+<-done
+```
+
