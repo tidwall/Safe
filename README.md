@@ -161,4 +161,21 @@ o.doit(f)               // runs once
 o.doit(f)               // noop: cannot run twice
 ```
 
-
+```swift
+let dosomething : (NSTimeInterval, WaitGroup)->() = { (delay, wg) in
+    NSThread.sleepForTimeInterval(delay)
+    print("Function in background, duration: \(delay)")
+    wg.done()
+}
+let wg = WaitGroup()
+wg.add(1)
+dispatch { dosomething(0.40, wg) }
+wg.add(1)
+dispatch { dosomething(0.30, wg) }
+wg.add(1)
+dispatch { dosomething(0.15, wg) }
+wg.add(1)
+dispatch { dosomething(0.60, wg) }
+wg.wait()
+print("done")
+```
