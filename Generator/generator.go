@@ -20,7 +20,7 @@ func main() {
 	stringTypes := []string{"String"}
 	signedTypes := []string{"Int", "Int64", "Int32", "Int16", "Int8"}
 	unsignedTypes := []string{"UInt", "UInt64", "UInt32", "UInt16", "UInt8"}
-    floatTypes := []string{"Double", "Float"}
+	floatTypes := []string{"Double", "Float"}
 	numberTypes := append(append(signedTypes, unsignedTypes...), floatTypes...)
 	allTypes := append(append(numberTypes, boolTypes...), stringTypes...)
 
