@@ -12,10 +12,8 @@
 
 ## Atomic
 
-
-
 ##### Types
-`Int`, `Int8`, `Int16`, `Int32`, `Int64`, `UInt`, `UInt8`, `UInt16`, `UInt32`, `UInt64`, `Float`, `Double`, `Bool`, `String`.
+`Int`, `Int8`, `Int16`, `Int32`, `Int64`, `UInt`, `UInt8`, `UInt16`, `UInt32`, `UInt64`, `Float`, `Double`, `Bool`, `String`
 
 ##### Operators
 - `==`, `!=`, `&&`, `||`, `<=`, `>=`, `>`, `<`, `!`  
@@ -27,4 +25,15 @@ var anum = IntA(100)      // IntA is an alias for Atomic<Int>.
 anum += 15                // Adds a value atomically.
 let res = anum % 4        // Modulo operation atomically.
 print("\(anum) \(res)")   // prints '115 3'.
+```
+
+## Dispatch
+
+Safe adds an uncomplicated method for dispatching threads operation. 
+
+```swift
+dispatch {
+    print("Background")
+}
+print("Foreground")
 ```
