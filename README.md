@@ -40,7 +40,7 @@ print("Foreground")
 
 ## Channels
 
-A new `Chan<T>` class provides a clean and simple model for concurrently sharing objects. `Chan<T>` is strictly modeled after [Go channels](https://golang.org/doc/effective_go.html#channels).
+A new `Chan<T>` class provides a clean and simple model for concurrently sharing objects. `Chan<T>` is modeled after [Go channels](https://golang.org/doc/effective_go.html#channels).
 
 [Sharing Memory by Communicating](http://blog.golang.org/share-memory-by-communicating)
 
@@ -85,7 +85,7 @@ done <- true
 
 #### Select
 
-The `select` keyword is a multiway communications multiplexer that works on multiple channels. 
+The `_select` keyword is a multiway communications multiplexer that works on multiple channels.  `_select`, `_case`, and `_default` start with underscores so that they do not conflict with the `select`, `case`, and `default` syscall and keywords.
 
 ```swift
 let jobs1 = Chan<Int>()  // buffered channel
@@ -110,6 +110,25 @@ for var j = 1; ; j++ {
     NSThread.sleepForTimeInterval(1)
 }
 ```
+
+#### Select with Default
+
+A `_select` can contain a single `_default` for non-blocking operations. 
+
+```swift
+_select {
+    _case(jobs1){ j in
+        print("received 1: \(j)")
+    }
+    _case(jobs2){ j in
+        print("received 2: \(j)")
+    }
+    _default {
+        print("channels not ready")
+    }
+}
+```
+
 
 
 
