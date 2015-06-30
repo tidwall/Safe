@@ -199,7 +199,7 @@ for up to date installation instructions.
 
 [carthage-installation]: https://github.com/Carthage/Carthage#adding-frameworks-to-an-application
 
-The `import Safe` directive is required in order to access SwiftWebSocket features.
+The `import Safe` directive is required in order to access Safe features.
 
 ### [CocoaPods]
 
@@ -218,7 +218,7 @@ The `import Safe` directive is required in order to access Safe features.
 
 ###Manually
 
-Copy the `Source\*.swift` file into your project.  
+Copy the `Source/*.swift` file into your project.  
 
 There is no need for `import Safe` when manually installing.
 
