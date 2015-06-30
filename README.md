@@ -5,7 +5,7 @@
 ##Features
 
 - Simple `Atomic<T>` class for numbers and strings.
-- Uncomplicated `dispatch` keyword for firing off new threads.
+- Uncomplicated `dispatch` keyword for firing off background routines.
 - Awesome `Chan<T>` for conncurent communication.
 - Useful sync APIs. `Mutex`, `Cond`, `Once`, `WaitGroup`
 
@@ -29,7 +29,7 @@ print("\(anum) \(res)")   // prints '115 3'.
 
 ## Dispatch
 
-Safe adds an uncomplicated method for dispatching threads. 
+Safe adds an uncomplicated method for dispatching routines. 
 
 ```swift
 dispatch {
@@ -179,3 +179,53 @@ dispatch { dosomething(0.60, wg) }
 wg.wait()
 print("done")
 ```
+
+##Installation (iOS and OS X)
+
+### [Carthage]
+
+[Carthage]: https://github.com/Carthage/Carthage
+
+Add the following to your Cartfile:
+
+```
+github "tidwall/Safe"
+```
+
+Then run `carthage update`.
+
+Follow the current instructions in [Carthage's README][carthage-installation]
+for up to date installation instructions.
+
+[carthage-installation]: https://github.com/Carthage/Carthage#adding-frameworks-to-an-application
+
+The `import Safe` directive is required in order to access SwiftWebSocket features.
+
+### [CocoaPods]
+
+[CocoaPods]: http://cocoapods.org
+
+Add the following to your [Podfile](http://guides.cocoapods.org/using/the-podfile.html):
+
+```ruby
+use_frameworks!
+pod 'Safe'
+```
+
+Then run `pod install` with CocoaPods 0.36 or newer.
+
+The `import Safe` directive is required in order to access Safe features.
+
+###Manually
+
+Copy the `Source\*.swift` file into your project.  
+
+There is no need for `import Safe` when manually installing.
+
+## Contact
+Josh Baker [@tidwall](http://twitter.com/tidwall)
+
+## License
+
+The Safe source code is available under the MIT License.
+
