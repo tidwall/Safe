@@ -12,10 +12,10 @@
 
 ## Atomic
 
-##### Types
+#### Types
 `Int`, `Int8`, `Int16`, `Int32`, `Int64`, `UInt`, `UInt8`, `UInt16`, `UInt32`, `UInt64`, `Float`, `Double`, `Bool`, `String`
 
-##### Operators
+#### Operators
 - `==`, `!=`, `&&`, `||`, `<=`, `>=`, `>`, `<`, `!`  
 - `+`, `-`, `*`, `/`, `%`, `<<`, `>>`, `^`, `&`, `&+`, `&-`, `&*`, `++`, `--`, `+=`, `-=`, `*=`, `/=`, `%=`, `+=`, `<<=`, `>>=`, `^=`, `&=`
 
@@ -44,7 +44,7 @@ A new `Chan<T>` class provides a clean and simple model for concurrently sharing
 
 [Sharing Memory by Communicating](http://blog.golang.org/share-memory-by-communicating)
 
-##### Example: 
+#### Example
 ```swift
 let jobs = Chan<Int>(5)  // buffered channel
 let done = Chan<Bool>()  // unbuffered channel
@@ -70,4 +70,47 @@ print("sent all jobs")
 
 <-done
 ```
+
+#### Iterate
+
+A channel can also be iterated through.
+
+```swift
+while let j = <-jobs {
+    print("received job \(j)")
+}
+print("received all jobs")
+done <- true
+```
+
+#### Select
+
+The `select` keyword is a multiway communications multiplexer that works on multiple channels. 
+
+```swift
+let jobs1 = Chan<Int>()  // buffered channel
+let jobs2 = Chan<Int>()  // buffered channel
+
+dispatch {
+    for ;; {
+        _select {
+            _case(jobs1){ j in
+                print("received 1: \(j)")
+            }
+            _case(jobs2){ j in
+                print("received 2: \(j)")
+            }
+        }
+    }
+}
+
+for var j = 1; ; j++ {
+    jobs1 <- (j * 1000)
+    jobs2 <- (j * 2000)
+    NSThread.sleepForTimeInterval(1)
+}
+```
+
+
+
 
