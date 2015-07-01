@@ -80,7 +80,6 @@ while let j = <-jobs {
     print("received job \(j)")
 }
 print("received all jobs")
-done <- true
 ```
 
 #### Select
@@ -88,8 +87,8 @@ done <- true
 The `_select` keyword is a multiway communications multiplexer that works on multiple channels.  `_select`, `_case`, and `_default` start with underscores so that they do not conflict with the `select`, `case`, and `default` syscall and keywords.
 
 ```swift
-let jobs1 = Chan<Int>()  // buffered channel
-let jobs2 = Chan<Int>()  // buffered channel
+let jobs1 = Chan<Int>()
+let jobs2 = Chan<Int>()
 
 dispatch {
     for ;; {
