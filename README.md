@@ -143,6 +143,7 @@ m.lock {
     // this block is locked
 }
 ```
+#### Cond
 ```swift
 let c = Cond(Mutex())
 c.wait()                // wait for signal.
@@ -150,7 +151,7 @@ c.wait(0.25)            // wait for signal or 250ms to pass.
 c.signal()              // signal to one wait.
 c.broadcast()           // signal to all waits.
 ```
-
+#### Once
 ```swift
 func f(){
     print("hey there")
@@ -160,7 +161,7 @@ let o = Once()
 o.doit(f)               // runs once
 o.doit(f)               // noop: cannot run twice
 ```
-
+#### WaitGroup
 ```swift
 let dosomething : (NSTimeInterval, WaitGroup)->() = { (delay, wg) in
     NSThread.sleepForTimeInterval(delay)
