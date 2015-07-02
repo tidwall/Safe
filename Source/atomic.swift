@@ -1037,3 +1037,17 @@ public func &=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value &= rhs; unlock(
 public func &=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
 public func &=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

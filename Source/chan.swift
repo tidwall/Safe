@@ -55,7 +55,7 @@ public class Chan<T> : SequenceType {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         if closed {
-            fatalError("send on closed channel")
+            NSException.raise("Exception", format: "send on closed channel", arguments: getVaList([]))
         }
         msgs.append(msg)
         broadcast()
