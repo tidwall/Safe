@@ -3,7 +3,7 @@
   <br>
   <a href="https://tidwall.github.io/Safe/test-results.txt"><img src="https://tidwall.github.io/Safe/build.png" alt="" width="93" height="20" border="0" /></a>
   <a href="https://developer.apple.com/swift/"><img src="https://tidwall.github.io/Safe/swift2.png" alt="" width="65" height="20" border="0" /></a>
-  <a href="https://tidwall.github.io/Safe/docs/"><img src="https://tidwall.github.io/Safe/docs.png" alt="" width="65" height="20" border="0" /></a>
+  <a href="https://tidwall.github.io/Safe/docs/"><img src="https://tidwall.github.io/Safe/docs.png?check" alt="" width="65" height="20" border="0" /></a>
 </p>
 
 ##Features
@@ -20,8 +20,8 @@
 `Int`, `Int8`, `Int16`, `Int32`, `Int64`, `UInt`, `UInt8`, `UInt16`, `UInt32`, `UInt64`, `Float`, `Double`, `Bool`, `String`
 
 #### Operators
-`==`, `!=`, `&&`, `||`, `<=`, `>=`, `>`, `<`, `!`  
-`+`, `-`, `*`, `/`, `%`, `<<`, `>>`, `^`, `&`, `&+`, `&-`, `&*`, `++`, `--`, `+=`, `-=`, `*=`, `/=`, `%=`, `+=`, `<<=`, `>>=`, `^=`, `&=`
+- `==`, `!=`, `&&`, `||`, `<=`, `>=`, `>`, `<`, `!`  
+- `+`, `-`, `*`, `/`, `%`, `<<`, `>>`, `^`, `&`, `&+`, `&-`, `&*`, `++`, `--`, `+=`, `-=`, `*=`, `/=`, `%=`, `+=`, `<<=`, `>>=`, `^=`, `&=`
 
 
 ```swift
