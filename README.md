@@ -80,7 +80,6 @@ while let j = <-jobs {
     print("received job \(j)")
 }
 print("received all jobs")
-done <- true
 ```
 
 #### Select
@@ -88,8 +87,8 @@ done <- true
 The `_select` keyword is a multiway communications multiplexer that works on multiple channels.  `_select`, `_case`, and `_default` start with underscores so that they do not conflict with the `select`, `case`, and `default` syscall and keywords.
 
 ```swift
-let jobs1 = Chan<Int>()  // buffered channel
-let jobs2 = Chan<Int>()  // buffered channel
+let jobs1 = Chan<Int>()
+let jobs2 = Chan<Int>()
 
 dispatch {
     for ;; {
@@ -143,6 +142,7 @@ m.lock {
     // this block is locked
 }
 ```
+#### Cond
 ```swift
 let c = Cond(Mutex())
 c.wait()                // wait for signal.
@@ -150,7 +150,7 @@ c.wait(0.25)            // wait for signal or 250ms to pass.
 c.signal()              // signal to one wait.
 c.broadcast()           // signal to all waits.
 ```
-
+#### Once
 ```swift
 func f(){
     print("hey there")
@@ -160,7 +160,7 @@ let o = Once()
 o.doit(f)               // runs once
 o.doit(f)               // noop: cannot run twice
 ```
-
+#### WaitGroup
 ```swift
 let dosomething : (NSTimeInterval, WaitGroup)->() = { (delay, wg) in
     NSThread.sleepForTimeInterval(delay)
