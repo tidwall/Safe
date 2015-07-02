@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Safe  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+  </head>
+  <body>
+    <a title="Safe  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">Safe Docs</a> (5% documented)</p>
+        <p class="header-right"><a href="https://github.com/tidwall/Safe"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">Safe Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Safe  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+          <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/Atomic.html">Atomic</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Chan.html">Chan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Cond.html">Cond</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Mutex.html">Mutex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Once.html">Once</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/WaitGroup.html">WaitGroup</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/WaitResult.html">WaitResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:Sb">Bool</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:Si">Int</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:VSs5Int16">Int16</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:VSs5Int32">Int32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:VSs5Int64">Int64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:VSs4Int8">Int8</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:SS">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:Su">UInt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:VSs6UInt16">UInt16</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:VSs6UInt32">UInt32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:VSs6UInt64">UInt64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions.html#/s:VSs5UInt8">UInt8</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+          <a href="Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:ZF4Safeop2lsU__FGCS_4ChanQ__GSqQ__">&lt;-(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:ZF4Safeoi2lsU__FTGCS_4ChanQ__Q__T_">&lt;-(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:F4Safe5_caseU__FTGCS_4ChanQ__FGSqQ__T__T_">_case(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:F4Safe8_defaultFFT_T_T_">_default(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:F4Safe7_selectFFT_T_T_">_select(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/s:F4Safe8dispatchFFT_T_T_">dispatch(_:)</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <p align="center">
+  <img src="http://tidwall.github.io/Safe/head.png" width="424" height="155">
+  <br>
+  <a href="https://tidwall.github.io/Safe/test-results.txt"><img src="https://tidwall.github.io/Safe/build.png" alt="" width="93" height="20" border="0" /></a>
+  <a href="https://developer.apple.com/swift/"><img src="https://tidwall.github.io/Safe/swift2.png" alt="" width="65" height="20" border="0" /></a>
+  <a href="https://tidwall.github.io/Safe/docs/"><img src="https://tidwall.github.io/Safe/docs.png" alt="" width="65" height="20" border="0" /></a>
+</p>
+<a href='#features' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='features'>Features</h2>
+
+<ul>
+<li>Simple <code>Atomic&lt;T&gt;</code> class for numbers and strings.</li>
+<li>Uncomplicated <code>dispatch</code> keyword for firing off background routines.</li>
+<li>Awesome <code>Chan&lt;T&gt;</code> for conncurent communication.</li>
+<li>Useful sync APIs. <code>Mutex</code>, <code>Cond</code>, <code>Once</code>, <code>WaitGroup</code></li>
+</ul>
+<a href='#atomic' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='atomic'>Atomic</h2>
+<a href='#types' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='types'>Types</h4>
+
+<p><code>Int</code>, <code>Int8</code>, <code>Int16</code>, <code>Int32</code>, <code>Int64</code>, <code>UInt</code>, <code>UInt8</code>, <code>UInt16</code>, <code>UInt32</code>, <code>UInt64</code>, <code>Float</code>, <code>Double</code>, <code>Bool</code>, <code>String</code></p>
+<a href='#operators' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='operators'>Operators</h4>
+
+<p><code>==</code>, <code>!=</code>, <code>&amp;&amp;</code>, <code>||</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>!</code><br>
+<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>^</code>, <code>&amp;</code>, <code>&amp;+</code>, <code>&amp;-</code>, <code>&amp;*</code>, <code>++</code>, <code>--</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>, <code>+=</code>, <code>&lt;&lt;=</code>, <code>&gt;&gt;=</code>, <code>^=</code>, <code>&amp;=</code></p>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">anum</span> <span class="o">=</span> <span class="kt">IntA</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>      <span class="c1">// IntA is an alias for Atomic&lt;Int&gt;.</span>
+<span class="n">anum</span> <span class="o">+=</span> <span class="mi">15</span>                <span class="c1">// Adds a value atomically.</span>
+<span class="k">let</span> <span class="nv">res</span> <span class="o">=</span> <span class="n">anum</span> <span class="o">%</span> <span class="mi">4</span>        <span class="c1">// Modulo operation atomically.</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">anum</span><span class="se">)</span><span class="s"> </span><span class="se">\(</span><span class="n">res</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>   <span class="c1">// prints '115 3'.</span>
+</code></pre>
+<a href='#dispatch' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='dispatch'>Dispatch</h2>
+
+<p>Safe adds an uncomplicated method for dispatching routines. </p>
+<pre class="highlight swift"><code><span class="n">dispatch</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Background"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"Foreground"</span><span class="p">)</span>
+</code></pre>
+<a href='#channels' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='channels'>Channels</h2>
+
+<p>A new <code>Chan&lt;T&gt;</code> class provides a clean and simple model for concurrently sharing objects. <code>Chan&lt;T&gt;</code> is modeled after <a href="https://golang.org/doc/effective_go.html#channels">Go channels</a>.</p>
+
+<p><a href="http://blog.golang.org/share-memory-by-communicating">Sharing Memory by Communicating</a></p>
+<a href='#example' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='example'>Example</h4>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">jobs</span> <span class="o">=</span> <span class="kt">Chan</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1">// buffered channel</span>
+<span class="k">let</span> <span class="nv">done</span> <span class="o">=</span> <span class="kt">Chan</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="o">&gt;</span><span class="p">()</span>  <span class="c1">// unbuffered channel</span>
+
+<span class="n">dispatch</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">;;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">j</span> <span class="o">=</span> <span class="o">&lt;-</span><span class="n">jobs</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"received job </span><span class="se">\(</span><span class="n">j</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"received all jobs"</span><span class="p">)</span>
+            <span class="n">done</span> <span class="o">&lt;-</span> <span class="kc">true</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="k">var</span> <span class="nv">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span> <span class="p">{</span>
+    <span class="n">jobs</span> <span class="o">&lt;-</span> <span class="n">j</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"sent job </span><span class="se">\(</span><span class="n">j</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">jobs</span><span class="o">.</span><span class="nf">close</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"sent all jobs"</span><span class="p">)</span>
+
+<span class="o">&lt;-</span><span class="n">done</span>
+</code></pre>
+<a href='#iterate' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='iterate'>Iterate</h4>
+
+<p>A channel can also be iterated through.</p>
+<pre class="highlight swift"><code><span class="k">while</span> <span class="k">let</span> <span class="nv">j</span> <span class="o">=</span> <span class="o">&lt;-</span><span class="n">jobs</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"received job </span><span class="se">\(</span><span class="n">j</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"received all jobs"</span><span class="p">)</span>
+</code></pre>
+<a href='#select' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='select'>Select</h4>
+
+<p>The <code>_select</code> keyword is a multiway communications multiplexer that works on multiple channels.  <code>_select</code>, <code>_case</code>, and <code>_default</code> start with underscores so that they do not conflict with the <code>select</code>, <code>case</code>, and <code>default</code> syscall and keywords.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">jobs1</span> <span class="o">=</span> <span class="kt">Chan</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">jobs2</span> <span class="o">=</span> <span class="kt">Chan</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">()</span>
+
+<span class="n">dispatch</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">;;</span> <span class="p">{</span>
+        <span class="n">_select</span> <span class="p">{</span>
+            <span class="nf">_case</span><span class="p">(</span><span class="n">jobs1</span><span class="p">){</span> <span class="n">j</span> <span class="k">in</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"received 1: </span><span class="se">\(</span><span class="n">j</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="nf">_case</span><span class="p">(</span><span class="n">jobs2</span><span class="p">){</span> <span class="n">j</span> <span class="k">in</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"received 2: </span><span class="se">\(</span><span class="n">j</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="k">var</span> <span class="nv">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="p">;</span> <span class="n">j</span><span class="o">++</span> <span class="p">{</span>
+    <span class="n">jobs1</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">jobs2</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2000</span><span class="p">)</span>
+    <span class="kt">NSThread</span><span class="o">.</span><span class="nf">sleepForTimeInterval</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#select_with_default' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='select_with_default'>Select with Default</h4>
+
+<p>A <code>_select</code> can contain a single <code>_default</code> for non-blocking operations. </p>
+<pre class="highlight swift"><code><span class="n">_select</span> <span class="p">{</span>
+    <span class="nf">_case</span><span class="p">(</span><span class="n">jobs1</span><span class="p">){</span> <span class="n">j</span> <span class="k">in</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"received 1: </span><span class="se">\(</span><span class="n">j</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">_case</span><span class="p">(</span><span class="n">jobs2</span><span class="p">){</span> <span class="n">j</span> <span class="k">in</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"received 2: </span><span class="se">\(</span><span class="n">j</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">_default</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"channels not ready"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#mutex_cond_once_waitgroup' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='mutex_cond_once_waitgroup'>Mutex, Cond, Once, WaitGroup</h2>
+
+<p>Incredibly useful sync APIs.</p>
+<a href='#mutex' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='mutex'>Mutex</h4>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">m</span> <span class="o">=</span> <span class="kt">Mutex</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="nf">lock</span><span class="p">()</span>           
+<span class="n">m</span><span class="o">.</span><span class="nf">unlock</span><span class="p">()</span>         
+<span class="n">m</span><span class="o">.</span><span class="n">lock</span> <span class="p">{</span>
+    <span class="c1">// this block is locked</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#cond' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='cond'>Cond</h4>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">c</span> <span class="o">=</span> <span class="kt">Cond</span><span class="p">(</span><span class="kt">Mutex</span><span class="p">())</span>
+<span class="n">c</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>                <span class="c1">// wait for signal.</span>
+<span class="n">c</span><span class="o">.</span><span class="nf">wait</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>            <span class="c1">// wait for signal or 250ms to pass.</span>
+<span class="n">c</span><span class="o">.</span><span class="nf">signal</span><span class="p">()</span>              <span class="c1">// signal to one wait.</span>
+<span class="n">c</span><span class="o">.</span><span class="nf">broadcast</span><span class="p">()</span>           <span class="c1">// signal to all waits.</span>
+</code></pre>
+<a href='#once' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='once'>Once</h4>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">f</span><span class="p">(){</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"hey there"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">o</span> <span class="o">=</span> <span class="kt">Once</span><span class="p">()</span>
+<span class="n">o</span><span class="o">.</span><span class="nf">doit</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>               <span class="c1">// runs once</span>
+<span class="n">o</span><span class="o">.</span><span class="nf">doit</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>               <span class="c1">// noop: cannot run twice</span>
+</code></pre>
+<a href='#waitgroup' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='waitgroup'>WaitGroup</h4>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">dosomething</span> <span class="p">:</span> <span class="p">(</span><span class="kt">NSTimeInterval</span><span class="p">,</span> <span class="kt">WaitGroup</span><span class="p">)</span><span class="o">-&gt;</span><span class="p">()</span> <span class="o">=</span> <span class="p">{</span> <span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="n">wg</span><span class="p">)</span> <span class="k">in</span>
+    <span class="kt">NSThread</span><span class="o">.</span><span class="nf">sleepForTimeInterval</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Function in background, duration: </span><span class="se">\(</span><span class="n">delay</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="n">wg</span><span class="o">.</span><span class="nf">done</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="k">let</span> <span class="nv">wg</span> <span class="o">=</span> <span class="kt">WaitGroup</span><span class="p">()</span>
+<span class="n">wg</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dispatch</span> <span class="p">{</span> <span class="nf">dosomething</span><span class="p">(</span><span class="mf">0.40</span><span class="p">,</span> <span class="n">wg</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">wg</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dispatch</span> <span class="p">{</span> <span class="nf">dosomething</span><span class="p">(</span><span class="mf">0.30</span><span class="p">,</span> <span class="n">wg</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">wg</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dispatch</span> <span class="p">{</span> <span class="nf">dosomething</span><span class="p">(</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">wg</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">wg</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dispatch</span> <span class="p">{</span> <span class="nf">dosomething</span><span class="p">(</span><span class="mf">0.60</span><span class="p">,</span> <span class="n">wg</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">wg</span><span class="o">.</span><span class="nf">wait</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"done"</span><span class="p">)</span>
+</code></pre>
+<a href='#installation_ios_and_os_x' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation_ios_and_os_x'>Installation (iOS and OS X)</h2>
+<a href='#a_href_https_github_com_carthage_carthage_carthage_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_href_https_github_com_carthage_carthage_carthage_a'><a href="https://github.com/Carthage/Carthage">Carthage</a></h3>
+
+<p>Add the following to your Cartfile:</p>
+<pre class="highlight plaintext"><code>github "tidwall/Safe"
+</code></pre>
+
+<p>Then run <code>carthage update</code>.</p>
+
+<p>Follow the current instructions in <a href="https://github.com/Carthage/Carthage#adding-frameworks-to-an-application">Carthage&rsquo;s README</a>
+for up to date installation instructions.</p>
+
+<p>The <code>import Safe</code> directive is required in order to access Safe features.</p>
+<a href='#a_href_http_cocoapods_org_cocoapods_a' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='a_href_http_cocoapods_org_cocoapods_a'><a href="http://cocoapods.org">CocoaPods</a></h3>
+
+<p>Add the following to your <a href="http://guides.cocoapods.org/using/the-podfile.html">Podfile</a>:</p>
+<pre class="highlight ruby"><code><span class="n">use_frameworks!</span>
+<span class="n">pod</span> <span class="s1">'Safe'</span>
+</code></pre>
+
+<p>Then run <code>pod install</code> with CocoaPods 0.36 or newer.</p>
+
+<p>The <code>import Safe</code> directive is required in order to access Safe features.</p>
+<a href='#manually' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='manually'>Manually</h3>
+
+<p>Copy the <code>Source/*.swift</code> file into your project.  </p>
+
+<p>There is no need for <code>import Safe</code> when manually installing.</p>
+<a href='#contact' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='contact'>Contact</h2>
+
+<p>Josh Baker <a href="http://twitter.com/tidwall">@tidwall</a></p>
+<a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
+
+<p>The Safe source code is available under the MIT License.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2015 <a class="link" href="http://github.com/tidwall" target="_blank" rel="external">Josh Baker</a>. All rights reserved. (Last updated: 2015-07-02)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.2.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
