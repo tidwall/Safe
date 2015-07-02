@@ -67,13 +67,13 @@ public class Chan<T> : SequenceType {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         for ;; {
-            if closed {
-                return (nil, true, true)
-            }
             if msgs.count > 0 {
                 let msg = msgs.removeAtIndex(0)
                 broadcast()
                 return (msg as? T, false, true)
+            }
+            if closed {
+                return (nil, true, true)
             }
             if !wait {
                 return (nil, false, false)
