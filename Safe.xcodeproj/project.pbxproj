@@ -30,6 +30,7 @@
 		036B03961B445EFF00D54CA4 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B03801B44319100D54CA4 /* bridge.m */; };
 		03E5455F1B4420CE00B0B87D /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E5455E1B4420CE00B0B87D /* test.swift */; };
 		03E545611B4420CE00B0B87D /* Safe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 032BF1DF1B43356000DF3381 /* Safe.framework */; };
+		03F048171B456E6400DC45AA /* chan-test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F048151B456E0200DC45AA /* chan-test.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		03E5455C1B4420CE00B0B87D /* Safe-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Safe-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03E5455E1B4420CE00B0B87D /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		03E545601B4420CE00B0B87D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03F048151B456E0200DC45AA /* chan-test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "chan-test.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			children = (
 				03E5455E1B4420CE00B0B87D /* test.swift */,
 				035DA9751B4421E500620045 /* atomic-test.swift */,
+				03F048151B456E0200DC45AA /* chan-test.swift */,
 				036B03861B44514900D54CA4 /* dispatch-test.swift */,
 				035DA9781B4422A300620045 /* sync-test.swift */,
 				03E545601B4420CE00B0B87D /* Info.plist */,
@@ -321,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				035DA97B1B4422FB00620045 /* atomic.swift in Sources */,
+				03F048171B456E6400DC45AA /* chan-test.swift in Sources */,
 				035DA97D1B4422FB00620045 /* chan.swift in Sources */,
 				035DA9771B44223700620045 /* atomic-test.swift in Sources */,
 				035DA97C1B4422FB00620045 /* sync.swift in Sources */,
