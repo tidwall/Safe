@@ -1,0 +1,80 @@
+Test Suite 'All tests' started at 2015-07-02 06:29:58.662
+Test Suite 'Safe-Tests.xctest' started at 2015-07-02 06:29:58.663
+Test Suite 'Tests' started at 2015-07-02 06:29:58.663
+Test Case '-[Safe_Tests.Tests testAtomicBool]' started.
+Test Case '-[Safe_Tests.Tests testAtomicBool]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicDouble]' started.
+Test Case '-[Safe_Tests.Tests testAtomicDouble]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicFloat]' started.
+Test Case '-[Safe_Tests.Tests testAtomicFloat]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicInt]' started.
+Test Case '-[Safe_Tests.Tests testAtomicInt]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicInt16]' started.
+Test Case '-[Safe_Tests.Tests testAtomicInt16]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicInt32]' started.
+Test Case '-[Safe_Tests.Tests testAtomicInt32]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicInt64]' started.
+Test Case '-[Safe_Tests.Tests testAtomicInt64]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicInt8]' started.
+Test Case '-[Safe_Tests.Tests testAtomicInt8]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicString]' started.
+Test Case '-[Safe_Tests.Tests testAtomicString]' passed (0.001 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicUInt]' started.
+Test Case '-[Safe_Tests.Tests testAtomicUInt]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicUInt16]' started.
+Test Case '-[Safe_Tests.Tests testAtomicUInt16]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicUInt32]' started.
+Test Case '-[Safe_Tests.Tests testAtomicUInt32]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicUInt64]' started.
+Test Case '-[Safe_Tests.Tests testAtomicUInt64]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testAtomicUInt8]' started.
+Test Case '-[Safe_Tests.Tests testAtomicUInt8]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testChanBuffered]' started.
+Test Case '-[Safe_Tests.Tests testChanBuffered]' passed (0.055 seconds).
+Test Case '-[Safe_Tests.Tests testChanSelect]' started.
+Test Case '-[Safe_Tests.Tests testChanSelect]' passed (0.057 seconds).
+Test Case '-[Safe_Tests.Tests testChanSelectDefault]' started.
+Test Case '-[Safe_Tests.Tests testChanSelectDefault]' passed (0.117 seconds).
+Test Case '-[Safe_Tests.Tests testChanSelectMultiple]' started.
+Test Case '-[Safe_Tests.Tests testChanSelectMultiple]' passed (0.062 seconds).
+Test Case '-[Safe_Tests.Tests testChanUnbuffered]' started.
+Test Case '-[Safe_Tests.Tests testChanUnbuffered]' passed (0.052 seconds).
+Test Case '-[Safe_Tests.Tests testCondBroadcastHundred]' started.
+Test Case '-[Safe_Tests.Tests testCondBroadcastHundred]' passed (0.096 seconds).
+Test Case '-[Safe_Tests.Tests testCondBroadcastTen]' started.
+Test Case '-[Safe_Tests.Tests testCondBroadcastTen]' passed (0.010 seconds).
+Test Case '-[Safe_Tests.Tests testCondBroadcastZero]' started.
+Test Case '-[Safe_Tests.Tests testCondBroadcastZero]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testCondSignal]' started.
+Test Case '-[Safe_Tests.Tests testCondSignal]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testCondTimeout]' started.
+Test Case '-[Safe_Tests.Tests testCondTimeout]' passed (0.102 seconds).
+Test Case '-[Safe_Tests.Tests testDispatchHundred]' started.
+Test Case '-[Safe_Tests.Tests testDispatchHundred]' passed (0.005 seconds).
+Test Case '-[Safe_Tests.Tests testDispatchTen]' started.
+Test Case '-[Safe_Tests.Tests testDispatchTen]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testMutexClosure]' started.
+Test Case '-[Safe_Tests.Tests testMutexClosure]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testMutexDispatch]' started.
+Test Case '-[Safe_Tests.Tests testMutexDispatch]' passed (0.002 seconds).
+Test Case '-[Safe_Tests.Tests testMutexSimpleLock]' started.
+Test Case '-[Safe_Tests.Tests testMutexSimpleLock]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testOnce]' started.
+Test Case '-[Safe_Tests.Tests testOnce]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testWaitGroupHundred]' started.
+Test Case '-[Safe_Tests.Tests testWaitGroupHundred]' passed (0.002 seconds).
+Test Case '-[Safe_Tests.Tests testWaitGroupIndividualAdds]' started.
+Test Case '-[Safe_Tests.Tests testWaitGroupIndividualAdds]' passed (0.004 seconds).
+Test Case '-[Safe_Tests.Tests testWaitGroupNegative]' started.
+Test Case '-[Safe_Tests.Tests testWaitGroupNegative]' passed (0.000 seconds).
+Test Case '-[Safe_Tests.Tests testWaitGroupTen]' started.
+Test Case '-[Safe_Tests.Tests testWaitGroupTen]' passed (0.001 seconds).
+Test Case '-[Safe_Tests.Tests testWaitGroupZero]' started.
+Test Case '-[Safe_Tests.Tests testWaitGroupZero]' passed (0.000 seconds).
+Test Suite 'Tests' passed at 2015-07-02 06:29:59.265.
+Executed 35 tests, with 0 failures (0 unexpected) in 0.570 (0.602) seconds
+Test Suite 'Safe-Tests.xctest' passed at 2015-07-02 06:29:59.265.
+Executed 35 tests, with 0 failures (0 unexpected) in 0.570 (0.603) seconds
+Test Suite 'All tests' passed at 2015-07-02 06:29:59.266.
+Executed 35 tests, with 0 failures (0 unexpected) in 0.570 (0.604) seconds
+Program ended with exit code: 0
