@@ -137,7 +137,37 @@ private class ChanGroup {
 
 private let selectMutex = Mutex()
 private var selectStack : [ChanGroup] = []
+/**
+A "select" statement chooses which of a set of possible send or receive operations will proceed. 
+It looks similar to a "switch" statement but with the cases all referring to communication operations.
 
+```
+var c1 Chan<String>()
+var c2 Chan<String>()
+
+// Each channel will receive a value after some amount of time, to simulate e.g. blocking RPC operations executing in concurrent operations.
+dispatch {
+    sleep(1)
+    c1 <- "one"
+}
+dispatch {
+    sleep(2)
+    c2 <- "two"
+}
+
+// We’ll use select to await both of these values simultaneously, printing each one as it arrives.
+for var i = 0; i < 2; i++ {
+    _select {
+        _case (msg1) { c1 in
+            print("received", msg1)
+        }
+        _case (msg2) { c2 in
+            print("received", msg2)
+        }
+    }
+}
+```
+*/
 public func _select(block: ()->()){
     let group = ChanGroup()
     selectMutex.lock()
@@ -147,12 +177,17 @@ public func _select(block: ()->()){
     selectMutex.unlock()
     group.select()
 }
-
+/**
+A "case" statement reads messages from a channel.
+*/
 public func _case<T>(chan: Chan<T>, block: (T?)->()){
     if let group = selectStack.last{
         group.addCase(chan, block)
     }
 }
+/**
+A "default" statement will run if the "case" channels are not ready.
+*/
 public func _default(block: ()->()){
     if let group = selectStack.last{
         group.addDefault(block)

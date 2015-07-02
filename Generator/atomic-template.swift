@@ -10,22 +10,44 @@
 
 import Foundation
 
+/** 
+Atomic is a class that allows for atomic loading and storing of objects.atomic
+
+```
+var ai = Atomic<Int>(15)
+ai += 10
+print(ai) // prints 25
+```
+
+There are a number of helper aliases for common types such as IntA, StringA, BoolA
+
+```
+var ai = IntA(15)
+ai += 10
+print(ai) // prints 25
+```
+
+*/
 public class Atomic<T> : CustomStringConvertible {
     private var mutex = Mutex()
     private var value : T
+    /// Returns an atomic object.
     public init(_ value : T) {
         self.value = value
     }
+    /// Loads the value atomically.
     public func load() -> T {
         mutex.lock()
         defer { mutex.unlock() }
         return value
     }
+    /// Stores a value atomically.
     public func store(value : T) {
         mutex.lock()
         defer { mutex.unlock() }
         self.value = value
     }
+    /// Exchanges / Swaps values atomically.
     public func exchange(atomic : Atomic<T>) {
         atomic.mutex.lock()
         defer { atomic.mutex.unlock() }

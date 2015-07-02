@@ -13,6 +13,23 @@ import Foundation
 private let idMutex = Mutex()
 private var idCounter = 0
 
+
+/**
+Channels are the pipes that connect concurrent operations. 
+You can send values into channels from one operation and receive those values into another operation.
+
+```
+var messages = Chan<String>()
+dispatch {
+    messages <- "ping"
+}
+if let msg := <-messages {
+    println(msg)
+}
+```
+
+
+*/
 public class Chan<T> : SequenceType {
     internal let id : Int
     internal let cap : Int
@@ -20,12 +37,15 @@ public class Chan<T> : SequenceType {
     internal var msgs = [Any?]()
     internal var closed = false
     internal var gconds : [Cond] = []
+    /// - Parameter capacity A value greater than Zero will create a buffered channel.
+    /// - Returns a Chan object
     public init(_ capacity: Int = 0){
         cap = capacity
         idMutex.lock()
         id = ++idCounter
         idMutex.unlock()
     }
+    /// The number of elements queued (unread) in the channel buffer
     public func count() -> Int{
         if cap == 0 {
             return 0
@@ -34,6 +54,7 @@ public class Chan<T> : SequenceType {
         defer { cond.mutex.unlock() }
         return msgs.count
     }
+    /// The channel buffer capacity, in units of elements;
     public func capacity() -> Int{
         return cap
     }
@@ -45,6 +66,11 @@ public class Chan<T> : SequenceType {
             cond.mutex.unlock()
         }
     }
+    /**
+    Closes the channel.
+    It should be executed only by the sender, never the receiver, and has the effect of shutting down the channel after the last sent value is received. 
+    After the last value has been received from a closed channel, any receive from the channel will succeed without blocking, returning the a nil value for the channel element.
+    */
     public func close(){
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
@@ -91,9 +117,11 @@ public class Chan<T> : SequenceType {
 
 infix operator <- { associativity right precedence 155 }
 prefix operator <- { }
+/// Send a message over a channel. Sending over a closed channel will raise a runtime exception.
 public func <-<T>(l: Chan<T>, r: T){
     l.send(r)
 }
+/// Receive a message over a channel. Returns nil if the channel is closed
 public prefix func <-<T>(r: Chan<T>) -> T? {
     let (v, closed, _) = r.receive()
     if closed {
