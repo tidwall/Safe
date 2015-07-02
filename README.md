@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="http://tidwall.github.io/Safe/head.png" width="500" height="155">
+  <img src="http://tidwall.github.io/Safe/head.png" width="424" height="155">
+  <br>
+  <a href="https://tidwall.github.io/Safe/test-results.txt"><img src="https://tidwall.github.io/Safe/build.png" alt="" width="93" height="20" border="0" /></a>
+  <a href="https://developer.apple.com/swift/"><img src="https://tidwall.github.io/Safe/swift2.png" alt="" width="65" height="20" border="0" /></a>
 </p>
 
 ##Features
