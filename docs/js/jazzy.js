@@ -32,3 +32,4 @@ $(".token").click(function() {
 $(".nav-group-name a[href='Extensions.html']").parent().hide()
 $(".nav-group-name a[href='../Extensions.html']").parent().hide()
 $("header .content-wrapper a[href='index.html']").parent().html("<a href='index.html'>Safe Docs</a>")
+$("header .content-wrapper a[href='../index.html']").parent().html("<a href='../index.html'>Safe Docs</a>")

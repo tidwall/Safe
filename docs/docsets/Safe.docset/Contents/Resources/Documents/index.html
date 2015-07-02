@@ -132,7 +132,7 @@
   <br>
   <a href="https://tidwall.github.io/Safe/test-results.txt"><img src="https://tidwall.github.io/Safe/build.png" alt="" width="93" height="20" border="0" /></a>
   <a href="https://developer.apple.com/swift/"><img src="https://tidwall.github.io/Safe/swift2.png" alt="" width="65" height="20" border="0" /></a>
-  <a href="https://tidwall.github.io/Safe/docs/"><img src="https://tidwall.github.io/Safe/docs.png" alt="" width="65" height="20" border="0" /></a>
+  <a href="https://tidwall.github.io/Safe/docs/"><img src="https://tidwall.github.io/Safe/docs.png?check" alt="" width="65" height="20" border="0" /></a>
 </p>
 <a href='#features' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='features'>Features</h2>
 
@@ -148,8 +148,10 @@
 <p><code>Int</code>, <code>Int8</code>, <code>Int16</code>, <code>Int32</code>, <code>Int64</code>, <code>UInt</code>, <code>UInt8</code>, <code>UInt16</code>, <code>UInt32</code>, <code>UInt64</code>, <code>Float</code>, <code>Double</code>, <code>Bool</code>, <code>String</code></p>
 <a href='#operators' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='operators'>Operators</h4>
 
-<p><code>==</code>, <code>!=</code>, <code>&amp;&amp;</code>, <code>||</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>!</code><br>
-<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>^</code>, <code>&amp;</code>, <code>&amp;+</code>, <code>&amp;-</code>, <code>&amp;*</code>, <code>++</code>, <code>--</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>, <code>+=</code>, <code>&lt;&lt;=</code>, <code>&gt;&gt;=</code>, <code>^=</code>, <code>&amp;=</code></p>
+<ul>
+<li><code>==</code>, <code>!=</code>, <code>&amp;&amp;</code>, <code>||</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>!</code><br></li>
+<li><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>^</code>, <code>&amp;</code>, <code>&amp;+</code>, <code>&amp;-</code>, <code>&amp;*</code>, <code>++</code>, <code>--</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>, <code>+=</code>, <code>&lt;&lt;=</code>, <code>&gt;&gt;=</code>, <code>^=</code>, <code>&amp;=</code></li>
+</ul>
 <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">anum</span> <span class="o">=</span> <span class="kt">IntA</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>      <span class="c1">// IntA is an alias for Atomic&lt;Int&gt;.</span>
 <span class="n">anum</span> <span class="o">+=</span> <span class="mi">15</span>                <span class="c1">// Adds a value atomically.</span>
 <span class="k">let</span> <span class="nv">res</span> <span class="o">=</span> <span class="n">anum</span> <span class="o">%</span> <span class="mi">4</span>        <span class="c1">// Modulo operation atomically.</span>
