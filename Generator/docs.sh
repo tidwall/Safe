@@ -10,6 +10,7 @@ echo ".nav-group-name a[href=\"Extensions.html\"] ~ ul { display: none; }" >> do
 printf "%s(\".nav-group-name a[href='Extensions.html']\").parent().hide()\n" "$" >> docsb/js/jazzy.js
 printf "%s(\".nav-group-name a[href='../Extensions.html']\").parent().hide()\n" "$" >> docsb/js/jazzy.js
 printf "%s(\"header .content-wrapper a[href='index.html']\").parent().html(\"<a href='index.html'>Safe Docs</a>\")\n" "$" >> docsb/js/jazzy.js
+printf "%s(\"header .content-wrapper a[href='../index.html']\").parent().html(\"<a href='../index.html'>Safe Docs</a>\")\n" "$" >> docsb/js/jazzy.js
 
 git checkout gh-pages
 function cleanup {
