@@ -88,7 +88,7 @@ print("received all jobs")
 
 #### Select
 
-The `_select` keyword is a multiway communications multiplexer that works on multiple channels.  `_select`, `_case`, and `_default` start with underscores so that they do not conflict with the `select`, `case`, and `default` syscall and keywords.
+The `_select` keyword is a multiway communications multiplexer that works on multiple channels.  `_select`, `_case`, and `_default` start with underscores so that they do not conflict with the `select`, `case`, and `default` syscall and keywords. *When a `_select` encounters multiple channels with data, the chosen `_case` is selected at random*
 
 ```swift
 let jobs1 = Chan<Int>()
