@@ -107,7 +107,7 @@ public class Chan<T> : SequenceType {
             cond.wait()
         }
     }
-    typealias Generator = AnyGenerator<T>
+    public typealias Generator = AnyGenerator<T>
     public func generate() -> Generator {
         return anyGenerator {
             return <-self
