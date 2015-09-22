@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = "Safe"
-  s.version               = "1.0.1"
+  s.version               = "1.1.0"
   s.summary               = "Modern Concurrency and Synchronization for Swift."
   s.homepage              = "https://github.com/tidwall/Safe"
   s.license               = { :type => "Attribution License", :file => "LICENSE" }
