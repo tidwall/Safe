@@ -56,12 +56,16 @@ extension Tests {
     func testWaitGroupIndividualAdds() {
         _testWaitGroup(100, individualAdds: true)
     }
+    
+    #if !os(Linux)
+    // Cannot test on linux because assertionFailure is not recoverable.
     func testWaitGroupNegative() {
         let ex = _try({
             self._testWaitGroup(-100, individualAdds: false)
         })
         XCTAssert(ex != nil, "Negative WaitGroup should fail.")
     }
+    #endif
 
     /// Once testing
     func testOnce() {
