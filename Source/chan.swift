@@ -42,7 +42,8 @@ public class Chan<T> : SequenceType {
     public init(_ capacity: Int = 0){
         cap = capacity
         idMutex.lock()
-        id = ++idCounter
+        idCounter += 1
+        id = idCounter
         idMutex.unlock()
     }
     /// The number of elements queued (unread) in the channel buffer
@@ -81,7 +82,8 @@ public class Chan<T> : SequenceType {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         if closed {
-            NSException.raise("Exception", format: "send on closed channel", arguments: getVaList([]))
+            assertionFailure("Send on closed channel")
+            // NSException.raise("Exception", format: "send on closed channel", arguments: getVaList([]))
         }
         msgs.append(msg)
         broadcast()
@@ -109,7 +111,7 @@ public class Chan<T> : SequenceType {
     }
     public typealias Generator = AnyGenerator<T>
     public func generate() -> Generator {
-        return anyGenerator {
+        return AnyGenerator {
             return <-self
         }
     }
