@@ -182,8 +182,11 @@ public class WaitGroup {
         defer { cond.mutex.unlock() }
         count += delta
         if count < 0 {
+            #if os(Linux)
             assertionFailure("negative WaitGroup counter")
-            // NSException.raise("Exception", format: "negative WaitGroup counter", arguments: getVaList([]))
+            #else
+            NSException.raise("Exception", format: "negative WaitGroup counter", arguments: getVaList([]))
+            #endif
         }
         cond.broadcast()
     }

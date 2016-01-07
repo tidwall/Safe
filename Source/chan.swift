@@ -82,8 +82,11 @@ public class Chan<T> : SequenceType {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         if closed {
+            #if os(Linux)
             assertionFailure("Send on closed channel")
-            // NSException.raise("Exception", format: "send on closed channel", arguments: getVaList([]))
+            #else
+            NSException.raise("Exception", format: "send on closed channel", arguments: getVaList([]))
+            #endif
         }
         msgs.append(msg)
         broadcast()
@@ -111,7 +114,7 @@ public class Chan<T> : SequenceType {
     }
     public typealias Generator = AnyGenerator<T>
     public func generate() -> Generator {
-        return AnyGenerator {
+        return anyGenerator {
             return <-self
         }
     }
