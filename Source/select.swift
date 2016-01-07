@@ -8,6 +8,10 @@
 * of the MIT license.  See the LICENSE file for details.
 */
 
+#if os(Linux)
+import Glibc
+#endif
+
 import Foundation
 
 private protocol ItemAny {
@@ -37,7 +41,7 @@ private class Item<T> : ItemAny {
         if let chan = chan {
             chan.cond.mutex.lock()
             defer { chan.cond.mutex.unlock() }
-            for var i = 0; i < chan.gconds.count; i++ {
+            for i in 0...chan.gconds.count {
                 if chan.gconds[i] === cond {
                     chan.gconds.removeAtIndex(i)
                     return
@@ -121,11 +125,16 @@ private class ChanGroup {
     }
     func randomInts(count : Int) -> [Int]{
         var ints = [Int](count: count, repeatedValue:0)
-        for var i = 0; i < count; i++ {
+        for i in 0..<count {
             ints[i] = i
         }
-        for var i = 0; i < count; i++ {
+        for i in 0..<count {
+            #if os(Linux)
+            let r = Int(random()) % count
+            #else
             let r = Int(arc4random()) % count
+            #endif
+
             let t = ints[i]
             ints[i] = ints[r]
             ints[r] = t

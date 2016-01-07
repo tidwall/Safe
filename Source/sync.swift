@@ -14,6 +14,10 @@
 * http://golang.org/pkg/sync/
 */
 
+#if os(Linux)
+import Glibc
+#endif
+
 import Foundation
 
 /// The WaitResult enum is used as a return value by Mutex.wait()
@@ -178,7 +182,11 @@ public class WaitGroup {
         defer { cond.mutex.unlock() }
         count += delta
         if count < 0 {
+            #if os(Linux)
+            assertionFailure("negative WaitGroup counter")
+            #else
             NSException.raise("Exception", format: "negative WaitGroup counter", arguments: getVaList([]))
+            #endif
         }
         cond.broadcast()
     }

@@ -42,7 +42,8 @@ public class Chan<T> : SequenceType {
     public init(_ capacity: Int = 0){
         cap = capacity
         idMutex.lock()
-        id = ++idCounter
+        idCounter += 1
+        id = idCounter
         idMutex.unlock()
     }
     /// The number of elements queued (unread) in the channel buffer
@@ -81,7 +82,11 @@ public class Chan<T> : SequenceType {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         if closed {
+            #if os(Linux)
+            assertionFailure("Send on closed channel")
+            #else
             NSException.raise("Exception", format: "send on closed channel", arguments: getVaList([]))
+            #endif
         }
         msgs.append(msg)
         broadcast()

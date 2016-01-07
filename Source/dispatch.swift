@@ -14,6 +14,10 @@
 * http://golang.org/ref/spec
 */
 
+#if os(Linux)
+import Glibc
+#endif
+
 import Foundation
 
 private let pt_entry: @convention(c) (UnsafeMutablePointer<Void>) -> UnsafeMutablePointer<Void> = { (ctx) in
