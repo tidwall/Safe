@@ -41,7 +41,7 @@ private class Item<T> : ItemAny {
         if let chan = chan {
             chan.cond.mutex.lock()
             defer { chan.cond.mutex.unlock() }
-            for i in 0...chan.gconds.count {
+            for i in 0..<chan.gconds.count {
                 if chan.gconds[i] === cond {
                     chan.gconds.removeAtIndex(i)
                     return
