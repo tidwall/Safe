@@ -21,7 +21,7 @@ extension Tests {
                 total += i
             }
         }
-        for var i = 0; i < count; i++ {
+        for i in 0 ..< count {
             nums <- i
         }
         XCTAssert(nums.count() == 0, "The channel count should equal Zero.")
@@ -42,7 +42,7 @@ extension Tests {
             }
             done <- true
         }
-        for var i = 0; i < count; i++ {
+        for i in 0 ..< count {
             nums <- i
         }
         nums.close()
@@ -60,7 +60,7 @@ extension Tests {
         dispatch {
             NSThread.sleepForTimeInterval(0.05)
             var chanOpened = true
-            for ; chanOpened ; {
+            while chanOpened {
                 _select {
                     _case(nums) { i in
                         if let i = i {
@@ -73,7 +73,7 @@ extension Tests {
             }
             done <- true
         }
-        for var i = 0; i < count; i++ {
+        for i in 0 ..< count {
             nums <- i
         }
         nums.close()
@@ -93,7 +93,7 @@ extension Tests {
             NSThread.sleepForTimeInterval(0.05)
             var chanOpened = true
             var chanOpened2 = true
-            for ; chanOpened || chanOpened2 ; {
+            while chanOpened || chanOpened2 {
                 _select {
                     _case(nums) { i in
                         if let i = i {
@@ -113,7 +113,7 @@ extension Tests {
             }
             done <- true
         }
-        for var i = 0; i < count; i++ {
+        for i in 0 ..< count {
             nums <- i
             nums2 <- i
         }
@@ -137,7 +137,7 @@ extension Tests {
             NSThread.sleepForTimeInterval(0.05)
             var chanOpened = true
             var chanOpened2 = true
-            for ; chanOpened || chanOpened2 ; {
+            while chanOpened || chanOpened2 {
                 _select {
                     _case(nums) { i in
                         if let i = i {
@@ -161,7 +161,7 @@ extension Tests {
             }
             done <- true
         }
-        for var i = 0; i < count; i++ {
+        for i in 0 ..< count {
             nums <- i
             nums2 <- i
         }

@@ -107,7 +107,7 @@ private class ChanGroup {
                 item.call()
             }
         }
-        for ;; {
+        while true {
             for item in citems {
                 if item.get() {
                     ret = item

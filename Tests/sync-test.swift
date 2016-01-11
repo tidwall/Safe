@@ -13,8 +13,10 @@ func now() -> NSTimeInterval {
 }
 func makeTotal(count: Int) -> Int {
     var res = 0
-    for var i = 0; i < count; i++ {
+    var i = 0
+    while i < count {
         res += i
+        i += 1
     }
     return res
 }
@@ -30,7 +32,8 @@ extension Tests {
         if !individualAdds {
             wg.add(count)
         }
-        for var i = 0; i < count; i++ {
+        var i = 0
+        while i < count {
             if individualAdds {
                 wg.add(1)
             }
@@ -40,6 +43,7 @@ extension Tests {
                     wg.done()
                 }
             }(i)
+            i += 1
         }
         wg.wait()
         XCTAssert(xtotal == total, "The expected total is incorrect. xtotal: \(xtotal), total: \(total)")
@@ -71,10 +75,12 @@ extension Tests {
     func testOnce() {
         let total = IntA(0)
         let once = Once()
-        for var i = 0; i < 100; i++ {
+        var i = 0
+        while i < 100 {
             once.doit {
                 total++
             }
+            i += 1
         }
         XCTAssert(total == 1, "Once.doit should only run once.")
     }
@@ -101,7 +107,8 @@ extension Tests {
         let wg = WaitGroup()
         let mutex = Mutex()
         wg.add(count)
-        for var i = 0; i < count; i++ {
+        var i = 0
+        while i < count {
             { i in
                 dispatch {
                     mutex.lock()
@@ -110,6 +117,7 @@ extension Tests {
                     wg.done()
                 }
             }(i)
+            i += 1
         }
         wg.wait()
         XCTAssert(xtotal == total, "The expected total is incorrect. xtotal: \(xtotal), total: \(total)")
@@ -160,8 +168,10 @@ extension Tests {
             }
         }
         wg.add(count)
-        for var i = 0; i < count; i++ {
+        var i = 0
+        while i < count {
             f(i)
+            i += 1
         }
         cond.mutex.lock {
             done = true
@@ -172,18 +182,24 @@ extension Tests {
     }
     
     func testCondBroadcastZero() {
-        for var i = 0; i < 50; i++ {
+        var i = 0;
+        while i < 50 {
             _testCondBroadcast(0)
+            i += 1
         }
     }
     func testCondBroadcastTen() {
-        for var i = 0; i < 50; i++ {
+        var i = 0
+        while i < 50 {
             _testCondBroadcast(10)
+            i += 1
         }
     }
     func testCondBroadcastHundred() {
-        for var i = 0; i < 50; i++ {
+        var i = 0
+        while i < 50 {
             _testCondBroadcast(100)
+            i += 1
         }
     }
 

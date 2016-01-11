@@ -97,7 +97,7 @@ public class Chan<T> : SequenceType {
     internal func receive(wait: Bool = true) -> (msg : T?, closed : Bool, ready : Bool) {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
-        for ;; {
+        while true {
             if msgs.count > 0 {
                 let msg = msgs.removeAtIndex(0)
                 broadcast()
@@ -112,6 +112,7 @@ public class Chan<T> : SequenceType {
             cond.wait()
         }
     }
+
     public typealias Generator = AnyGenerator<T>
     public func generate() -> Generator {
         return anyGenerator {
@@ -119,6 +120,7 @@ public class Chan<T> : SequenceType {
         }
     }
 }
+
 
 infix operator <- { associativity right precedence 155 }
 prefix operator <- { }

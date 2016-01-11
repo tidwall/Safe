@@ -16,7 +16,7 @@ extension Tests {
         let wg = WaitGroup()
         let mutex = Mutex()
         wg.add(count)
-        for var i = 0; i < count; i++ {
+        for i in 0 ..< count {
             { i in
                 dispatch {
                     mutex.lock()
