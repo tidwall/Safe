@@ -689,30 +689,30 @@ public func &*(lhs: UInt8A, rhs: UInt8) -> UInt8A { lock(lhs); let result = lhs.
 public func +(lhs: StringA, rhs: StringA) -> StringA { lock(lhs, rhs); let result = lhs.value + rhs.value; unlock(lhs, rhs); return Atomic(result) }
 public func +(lhs: String, rhs: StringA) -> StringA { lock(rhs); let result = lhs + rhs.value; unlock(rhs); return Atomic(result) }
 public func +(lhs: StringA, rhs: String) -> StringA { lock(lhs); let result = lhs.value + rhs; unlock(lhs); return Atomic(result) }
-public prefix func ++(x: IntA) -> IntA { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: Int64A) -> Int64A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: Int32A) -> Int32A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: Int16A) -> Int16A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: Int8A) -> Int8A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: UIntA) -> UIntA { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: UInt64A) -> UInt64A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: UInt32A) -> UInt32A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: UInt16A) -> UInt16A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: UInt8A) -> UInt8A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: DoubleA) -> DoubleA { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func ++(x: FloatA) -> FloatA { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: IntA) -> IntA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: Int64A) -> Int64A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: Int32A) -> Int32A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: Int16A) -> Int16A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: Int8A) -> Int8A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: UIntA) -> UIntA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: UInt64A) -> UInt64A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: UInt32A) -> UInt32A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: UInt16A) -> UInt16A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: UInt8A) -> UInt8A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: DoubleA) -> DoubleA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
-public prefix func --(x: FloatA) -> FloatA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public prefix func ++(x: IntA) -> IntA { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: Int64A) -> Int64A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: Int32A) -> Int32A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: Int16A) -> Int16A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: Int8A) -> Int8A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: UIntA) -> UIntA { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: UInt64A) -> UInt64A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: UInt32A) -> UInt32A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: UInt16A) -> UInt16A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: UInt8A) -> UInt8A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: DoubleA) -> DoubleA { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func ++(x: FloatA) -> FloatA { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
+public prefix func --(x: IntA) -> IntA { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: Int64A) -> Int64A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: Int32A) -> Int32A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: Int16A) -> Int16A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: Int8A) -> Int8A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: UIntA) -> UIntA { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: UInt64A) -> UInt64A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: UInt32A) -> UInt32A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: UInt16A) -> UInt16A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: UInt8A) -> UInt8A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: DoubleA) -> DoubleA { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public prefix func --(x: FloatA) -> FloatA { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
 public prefix func +(x: IntA) -> IntA { lock(x); let result = +x.value; unlock(x); return Atomic(result) }
 public prefix func +(x: Int64A) -> Int64A { lock(x); let result = +x.value; unlock(x); return Atomic(result) }
 public prefix func +(x: Int32A) -> Int32A { lock(x); let result = +x.value; unlock(x); return Atomic(result) }
@@ -732,30 +732,30 @@ public prefix func ~(x: Int64A) -> Int64A { lock(x); let result = ~x.value; unlo
 public prefix func ~(x: Int32A) -> Int32A { lock(x); let result = ~x.value; unlock(x); return Atomic(result) }
 public prefix func ~(x: Int16A) -> Int16A { lock(x); let result = ~x.value; unlock(x); return Atomic(result) }
 public prefix func ~(x: Int8A) -> Int8A { lock(x); let result = ~x.value; unlock(x); return Atomic(result) }
-public postfix func ++(x: IntA) -> IntA { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: Int64A) -> Int64A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: Int32A) -> Int32A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: Int16A) -> Int16A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: Int8A) -> Int8A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: UIntA) -> UIntA { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: UInt64A) -> UInt64A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: UInt32A) -> UInt32A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: UInt16A) -> UInt16A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: UInt8A) -> UInt8A { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: DoubleA) -> DoubleA { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func ++(x: FloatA) -> FloatA { lock(x); let result = x.value; x.value += 1; unlock(x); return Atomic(result) }
-public postfix func --(x: IntA) -> IntA { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: Int64A) -> Int64A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: Int32A) -> Int32A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: Int16A) -> Int16A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: Int8A) -> Int8A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: UIntA) -> UIntA { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: UInt64A) -> UInt64A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: UInt32A) -> UInt32A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: UInt16A) -> UInt16A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: UInt8A) -> UInt8A { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: DoubleA) -> DoubleA { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
-public postfix func --(x: FloatA) -> FloatA { lock(x); let result = x.value; x.value -= 1; unlock(x); return Atomic(result) }
+public postfix func ++(x: IntA) -> IntA { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: Int64A) -> Int64A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: Int32A) -> Int32A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: Int16A) -> Int16A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: Int8A) -> Int8A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: UIntA) -> UIntA { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: UInt64A) -> UInt64A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: UInt32A) -> UInt32A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: UInt16A) -> UInt16A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: UInt8A) -> UInt8A { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: DoubleA) -> DoubleA { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func ++(x: FloatA) -> FloatA { lock(x); x.value += 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: IntA) -> IntA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: Int64A) -> Int64A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: Int32A) -> Int32A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: Int16A) -> Int16A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: Int8A) -> Int8A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: UIntA) -> UIntA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: UInt64A) -> UInt64A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: UInt32A) -> UInt32A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: UInt16A) -> UInt16A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: UInt8A) -> UInt8A { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: DoubleA) -> DoubleA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
+public postfix func --(x: FloatA) -> FloatA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
 public func +=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
 public func +=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value += rhs; unlock(lhs) }

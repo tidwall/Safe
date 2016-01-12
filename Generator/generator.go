@@ -46,6 +46,39 @@ func repls(s string, m map[string]string) string {
 	return s
 }
 
+func supwarns(source string) string {
+
+	replblock := func(key string) {
+		var idx int
+		for {
+			idx = strings.Index(source, key)
+			if idx == -1 {
+				break
+			}
+			sidx := strings.LastIndex(source[:idx], "do {")
+			if sidx == -1 {
+				break
+			}
+			eidx := strings.IndexAny(source[sidx:], "}")
+			if eidx == -1 {
+				break
+			}
+			source = source[:sidx] + source[sidx+eidx+1:]
+		}
+	}
+
+	source = strings.Replace(source, `let result = ++x.value;`, `let result = x.value; x.value += 1;`, -1)
+	source = strings.Replace(source, `let result = --x.value;`, `let result = x.value; x.value -= 1;`, -1)
+	source = strings.Replace(source, `let result = x.value++;`, `x.value += 1; let result = x.value;`, -1)
+	source = strings.Replace(source, `let result = x.value--;`, `x.value -= 1; let result = x.value;`, -1)
+	replblock(`++n`)
+	replblock(`n++`)
+	replblock(`--n`)
+	replblock(`n--`)
+
+	return source
+}
+
 func process(templatePath string, destinationPath string) {
 	b, err := ioutil.ReadFile(templatePath)
 	if err != nil {
@@ -251,6 +284,11 @@ func process(templatePath string, destinationPath string) {
 		}
 		source += template + "\n"
 	}
+
+	// `--` and `++` postfix and prefix are deprecated. make minor update to contents to suppress the
+	// warnings that Swift raises.
+
+	source = supwarns(source)
 
 	////////////////////////////////////////////////////
 	match := false

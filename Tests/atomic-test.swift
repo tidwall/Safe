@@ -84,18 +84,8 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int(47), IntA(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int(47), IntA(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int(47), IntA(47))
             n = +n
@@ -114,18 +104,8 @@ extension Tests {
             a = ~a
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int(47), IntA(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int(47), IntA(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int(47), IntA(47))
             n += 2
@@ -257,18 +237,8 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int64(47), Int64A(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int64(47), Int64A(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int64(47), Int64A(47))
             n = +n
@@ -287,18 +257,8 @@ extension Tests {
             a = ~a
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int64(47), Int64A(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int64(47), Int64A(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int64(47), Int64A(47))
             n += 2
@@ -430,18 +390,8 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int32(47), Int32A(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int32(47), Int32A(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int32(47), Int32A(47))
             n = +n
@@ -460,18 +410,8 @@ extension Tests {
             a = ~a
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int32(47), Int32A(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int32(47), Int32A(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int32(47), Int32A(47))
             n += 2
@@ -603,18 +543,8 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int16(47), Int16A(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int16(47), Int16A(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int16(47), Int16A(47))
             n = +n
@@ -633,18 +563,8 @@ extension Tests {
             a = ~a
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int16(47), Int16A(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int16(47), Int16A(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int16(47), Int16A(47))
             n += 2
@@ -776,18 +696,8 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int8(47), Int8A(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int8(47), Int8A(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int8(47), Int8A(47))
             n = +n
@@ -806,18 +716,8 @@ extension Tests {
             a = ~a
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Int8(47), Int8A(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Int8(47), Int8A(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Int8(47), Int8A(47))
             n += 2
@@ -949,30 +849,10 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (UInt(47), UIntA(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt(47), UIntA(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt(47), UIntA(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt(47), UIntA(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
+        
+        
         do {
             var (n, a) = (UInt(47), UIntA(47))
             n += 2
@@ -1104,30 +984,10 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (UInt64(47), UInt64A(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt64(47), UInt64A(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt64(47), UInt64A(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt64(47), UInt64A(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
+        
+        
         do {
             var (n, a) = (UInt64(47), UInt64A(47))
             n += 2
@@ -1259,30 +1119,10 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (UInt32(47), UInt32A(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt32(47), UInt32A(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt32(47), UInt32A(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt32(47), UInt32A(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
+        
+        
         do {
             var (n, a) = (UInt32(47), UInt32A(47))
             n += 2
@@ -1414,30 +1254,10 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (UInt16(47), UInt16A(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt16(47), UInt16A(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt16(47), UInt16A(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt16(47), UInt16A(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
+        
+        
         do {
             var (n, a) = (UInt16(47), UInt16A(47))
             n += 2
@@ -1569,30 +1389,10 @@ extension Tests {
             a = a &* 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (UInt8(47), UInt8A(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt8(47), UInt8A(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt8(47), UInt8A(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (UInt8(47), UInt8A(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
+        
+        
         do {
             var (n, a) = (UInt8(47), UInt8A(47))
             n += 2
@@ -1682,18 +1482,8 @@ extension Tests {
             a = a % 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Double(47), DoubleA(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Double(47), DoubleA(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Double(47), DoubleA(47))
             n = +n
@@ -1706,18 +1496,8 @@ extension Tests {
             a = -a
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Double(47), DoubleA(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Double(47), DoubleA(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Double(47), DoubleA(47))
             n += 2
@@ -1783,18 +1563,8 @@ extension Tests {
             a = a % 2
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Float(47), FloatA(47))
-            ++n
-            ++a
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Float(47), FloatA(47))
-            --n
-            --a
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Float(47), FloatA(47))
             n = +n
@@ -1807,18 +1577,8 @@ extension Tests {
             a = -a
             XCTAssert(n == a, "Mismatch")
         }
-        do {
-            var (n, a) = (Float(47), FloatA(47))
-            n++
-            a++
-            XCTAssert(n == a, "Mismatch")
-        }
-        do {
-            var (n, a) = (Float(47), FloatA(47))
-            n--
-            a--
-            XCTAssert(n == a, "Mismatch")
-        }
+        
+        
         do {
             var (n, a) = (Float(47), FloatA(47))
             n += 2
