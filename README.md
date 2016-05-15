@@ -10,7 +10,7 @@
 
 - Simple `Atomic<T>` class for numbers and strings.
 - Uncomplicated `dispatch` keyword for firing off background routines.
-- Awesome `Chan<T>` for conncurent communication.
+- Awesome `Chan<T>` for concurrent communication.
 - Useful sync APIs. `Mutex`, `Cond`, `Once`, `WaitGroup`
 
 
