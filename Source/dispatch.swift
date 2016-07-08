@@ -32,7 +32,7 @@ private let pt_entry: @convention(c) (UnsafeMutablePointer<Void>) -> UnsafeMutab
 public func dispatch(action: ()->()){
     let p = UnsafeMutablePointer<()->()>.alloc(1)
     p.initialize(action)
-    var t = pthread_t()
+    var t : pthread_t = nil
     pthread_create(&t, nil, pt_entry, p)
     pthread_detach(t)
 }

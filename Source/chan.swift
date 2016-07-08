@@ -115,7 +115,7 @@ public class Chan<T> : SequenceType {
 
     public typealias Generator = AnyGenerator<T>
     public func generate() -> Generator {
-        return anyGenerator {
+        return AnyGenerator {
             return <-self
         }
     }
