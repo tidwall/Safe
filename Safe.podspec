@@ -7,9 +7,7 @@ Pod::Spec.new do |s|
   s.source                = { :git => "https://github.com/tidwall/Safe.git", :tag => "1.2.0" }
   s.authors               = { 'Josh Baker' => 'joshbaker77@gmail.com' }
   s.social_media_url      = "https://twitter.com/tidwall"
-  s.ios.platform          = :ios, '8.0'
   s.ios.deployment_target = "8.0"
-  s.osx.platform          = :osx, '10.10'
   s.osx.deployment_target = "10.10"
   s.source_files          = "Source/*.swift"
   s.requires_arc          = true
