@@ -2,8 +2,9 @@
   <img src="http://tidwall.github.io/Safe/head.png" width="424" height="155">
   <br>
   <a href="https://tidwall.github.io/Safe/test-results.txt"><img src="https://tidwall.github.io/Safe/build.png" alt="" width="93" height="20" border="0" /></a>
-  <a href="https://developer.apple.com/swift/"><img src="https://tidwall.github.io/Safe/swift2.png" alt="" width="65" height="20" border="0" /></a>
   <a href="https://tidwall.github.io/Safe/docs/"><img src="https://tidwall.github.io/Safe/docs.png?check" alt="" width="65" height="20" border="0" /></a>
+  <a href="https://developer.apple.com/swift/"><img src="https://img.shields.io/badge/Swift-2.2-orange.svg?style=flat-square" alt="Swift 2.2" /></a>
+  <a href="https://swift.org/"><img src="https://img.shields.io/badge/Platforms-OS%20X%20%7C%20iOS%20%7C%20Linux%20-lightgray.svg?style=flat-square" alt="Platforms OS X | iOS | Linux" /></a>
 </p>
 
 ##Features
@@ -220,7 +221,24 @@ Then run `pod install` with CocoaPods 0.36 or newer.
 
 The `import Safe` directive is required in order to access Safe features.
 
-###Manually
+### [SPM]
+
+[SPM]: https://swift.org/package-manager/
+
+Add the following to your `Package.swift`
+
+```swift
+    dependencies: [
+        ...
+        .Package(url: "https://github.com/tidwall/Safe", majorVersion: 1, minor: 2)
+    ]
+```
+
+Then run `swift build`.
+
+The `import Safe` directive is required in order to access Safe features.
+
+### Manually
 
 Copy the `Source/*.swift` file into your project.  
 
