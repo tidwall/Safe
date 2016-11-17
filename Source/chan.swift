@@ -30,7 +30,7 @@ if let msg := <-messages {
 
 
 */
-public class Chan<T> : SequenceType {
+open class Chan<T> : Sequence {
     internal let id : Int
     internal let cap : Int
     internal let cond = Cond(Mutex())
@@ -47,7 +47,7 @@ public class Chan<T> : SequenceType {
         idMutex.unlock()
     }
     /// The number of elements queued (unread) in the channel buffer
-    public func count() -> Int{
+    open func count() -> Int{
         if cap == 0 {
             return 0
         }
@@ -56,7 +56,7 @@ public class Chan<T> : SequenceType {
         return msgs.count
     }
     /// The channel buffer capacity, in units of elements;
-    public func capacity() -> Int{
+    open func capacity() -> Int{
         return cap
     }
     internal func broadcast() {
@@ -72,20 +72,20 @@ public class Chan<T> : SequenceType {
     It should be executed only by the sender, never the receiver, and has the effect of shutting down the channel after the last sent value is received. 
     After the last value has been received from a closed channel, any receive from the channel will succeed without blocking, returning the a nil value for the channel element.
     */
-    public func close(){
+    open func close(){
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         closed = true
         broadcast()
     }
-    internal func send(msg: T) {
+    internal func send(_ msg: T) {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         if closed {
             #if os(Linux)
             assertionFailure("Send on closed channel")
             #else
-            NSException.raise("Exception", format: "send on closed channel", arguments: getVaList([]))
+            NSException.raise(NSExceptionName(rawValue: "Exception"), format: "send on closed channel", arguments: getVaList([]))
             #endif
         }
         msgs.append(msg)
@@ -94,12 +94,12 @@ public class Chan<T> : SequenceType {
             cond.wait()
         }
     }
-    internal func receive(wait: Bool = true) -> (msg : T?, closed : Bool, ready : Bool) {
+    internal func receive(_ wait: Bool = true) -> (msg : T?, closed : Bool, ready : Bool) {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         while true {
             if msgs.count > 0 {
-                let msg = msgs.removeAtIndex(0)
+                let msg = msgs.remove(at: 0)
                 broadcast()
                 return (msg as? T, false, true)
             }
@@ -113,9 +113,9 @@ public class Chan<T> : SequenceType {
         }
     }
 
-    public typealias Generator = AnyGenerator<T>
-    public func generate() -> Generator {
-        return AnyGenerator {
+    public typealias Iterator = AnyIterator<T>
+    open func makeIterator() -> Iterator {
+        return AnyIterator {
             return <-self
         }
     }
@@ -123,7 +123,7 @@ public class Chan<T> : SequenceType {
 
 
 infix operator <- { associativity right precedence 155 }
-prefix operator <- { }
+prefix operator <-
 /// Send a message over a channel. Sending over a closed channel will raise a runtime exception.
 public func <-<T>(l: Chan<T>, r: T){
     l.send(r)

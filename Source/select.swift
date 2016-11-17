@@ -15,8 +15,8 @@ import Glibc
 import Foundation
 
 private protocol ItemAny {
-    func register(cond: Cond)
-    func unregister(cond: Cond)
+    func register(_ cond: Cond)
+    func unregister(_ cond: Cond)
     func get() -> Bool;
     func call()
 }
@@ -30,20 +30,20 @@ private class Item<T> : ItemAny {
     init(_ chan: Chan<T>?, _ caseBlock: ((T?)->())?, _ defBlock: (()->())?){
         (self.chan, self.caseBlock, self.defBlock) = (chan, caseBlock, defBlock)
     }
-    func register(cond: Cond){
+    func register(_ cond: Cond){
         if let chan = chan {
             chan.cond.mutex.lock()
             defer { chan.cond.mutex.unlock() }
             chan.gconds += [cond]
         }
     }
-    func unregister(cond: Cond){
+    func unregister(_ cond: Cond){
         if let chan = chan {
             chan.cond.mutex.lock()
             defer { chan.cond.mutex.unlock() }
             for i in 0..<chan.gconds.count {
                 if chan.gconds[i] === cond {
-                    chan.gconds.removeAtIndex(i)
+                    chan.gconds.remove(at: i)
                     return
                 }
             }
@@ -74,14 +74,14 @@ private class ChanGroup {
     var cond = Cond(Mutex())
     var items = [Int: ItemAny]()
     var ids = [Int]()
-    func addCase<T>(chan: Chan<T>, _ block: (T?)->()){
+    func addCase<T>(_ chan: Chan<T>, _ block: @escaping (T?)->()){
         if items[chan.id] != nil {
             fatalError("selecting channel twice")
         }
         items[chan.id] = Item<T>(chan, block, nil)
         ids.append(chan.id)
     }
-    func addDefault(block: ()->()){
+    func addDefault(_ block: @escaping ()->()){
         if items[0] != nil {
             fatalError("selecting default twice")
         }
@@ -123,8 +123,8 @@ private class ChanGroup {
             cond.mutex.unlock()
         }
     }
-    func randomInts(count : Int) -> [Int]{
-        var ints = [Int](count: count, repeatedValue:0)
+    func randomInts(_ count : Int) -> [Int]{
+        var ints = [Int](repeating: 0, count: count)
         for i in 0..<count {
             ints[i] = i
         }
@@ -177,7 +177,7 @@ for var i = 0; i < 2; i++ {
 }
 ```
 */
-public func _select(block: ()->()){
+public func _select(_ block: ()->()){
     let group = ChanGroup()
     selectMutex.lock()
     selectStack += [group]
@@ -189,7 +189,7 @@ public func _select(block: ()->()){
 /**
 A "case" statement reads messages from a channel.
 */
-public func _case<T>(chan: Chan<T>, block: (T?)->()){
+public func _case<T>(_ chan: Chan<T>, block: @escaping (T?)->()){
     if let group = selectStack.last{
         group.addCase(chan, block)
     }
@@ -197,7 +197,7 @@ public func _case<T>(chan: Chan<T>, block: (T?)->()){
 /**
 A "default" statement will run if the "case" channels are not ready.
 */
-public func _default(block: ()->()){
+public func _default(_ block: @escaping ()->()){
     if let group = selectStack.last{
         group.addDefault(block)
     }

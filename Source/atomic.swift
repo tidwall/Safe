@@ -28,27 +28,27 @@ print(ai) // prints 25
 ```
 
 */
-public class Atomic<T> : CustomStringConvertible {
-    private var mutex = Mutex()
-    private var value : T
+open class Atomic<T> : CustomStringConvertible {
+    fileprivate var mutex = Mutex()
+    fileprivate var value : T
     /// Returns an atomic object.
     public init(_ value : T) {
         self.value = value
     }
     /// Loads the value atomically.
-    public func load() -> T {
+    open func load() -> T {
         mutex.lock()
         defer { mutex.unlock() }
         return value
     }
     /// Stores a value atomically.
-    public func store(value : T) {
+    open func store(_ value : T) {
         mutex.lock()
         defer { mutex.unlock() }
         self.value = value
     }
     /// Exchanges / Swaps values atomically.
-    public func exchange(atomic : Atomic<T>) {
+    open func exchange(_ atomic : Atomic<T>) {
         atomic.mutex.lock()
         defer { atomic.mutex.unlock() }
         mutex.lock()
@@ -57,25 +57,25 @@ public class Atomic<T> : CustomStringConvertible {
         value = atomic.value
         atomic.value = temp
     }
-    public var description : String {
+    open var description : String {
         mutex.lock()
         defer { mutex.unlock() }
         return "\(value)"
     }
 }
 
-@inline(__always) private func lock<T>(lhs: Atomic<T>, _ rhs: Atomic<T>){
+@inline(__always) private func lock<T>(_ lhs: Atomic<T>, _ rhs: Atomic<T>){
     lhs.mutex.lock()
     if lhs !== rhs { rhs.mutex.lock() }
 }
-@inline(__always) private func lock<T>(lhs: Atomic<T>){
+@inline(__always) private func lock<T>(_ lhs: Atomic<T>){
     lhs.mutex.lock()
 }
-@inline(__always) private func unlock<T>(lhs: Atomic<T>, _ rhs: Atomic<T>){
+@inline(__always) private func unlock<T>(_ lhs: Atomic<T>, _ rhs: Atomic<T>){
     lhs.mutex.unlock()
     if lhs !== rhs { rhs.mutex.unlock() }
 }
-@inline(__always) private func unlock<T>(lhs: Atomic<T>){
+@inline(__always) private func unlock<T>(_ lhs: Atomic<T>){
     lhs.mutex.unlock()
 }
 
@@ -86,12 +86,12 @@ public func ==<T : Equatable>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let r
 public func !=<T : Equatable>(lhs: Atomic<T>, rhs: Atomic<T>) -> Bool { lock(lhs, rhs); let result = lhs.value != rhs.value; unlock(lhs, rhs); return result }
 public func !=<T : Equatable>(lhs: T, rhs: Atomic<T>) -> Bool { lock(rhs); let result = lhs != rhs.value; unlock(rhs); return result }
 public func !=<T : Equatable>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let result = lhs.value != rhs; unlock(lhs); return result }
-public func &&<T : BooleanType>(lhs: Atomic<T>, rhs: Atomic<T>) -> Bool { lock(lhs, rhs); let result = lhs.value && rhs.value; unlock(lhs, rhs); return result }
-public func &&<T : BooleanType>(lhs: T, rhs: Atomic<T>) -> Bool { lock(rhs); let result = lhs && rhs.value; unlock(rhs); return result }
-public func &&<T : BooleanType>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let result = lhs.value && rhs; unlock(lhs); return result }
-public func ||<T : BooleanType>(lhs: Atomic<T>, rhs: Atomic<T>) -> Bool { lock(lhs, rhs); let result = lhs.value || rhs.value; unlock(lhs, rhs); return result }
-public func ||<T : BooleanType>(lhs: T, rhs: Atomic<T>) -> Bool { lock(rhs); let result = lhs || rhs.value; unlock(rhs); return result }
-public func ||<T : BooleanType>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let result = lhs.value || rhs; unlock(lhs); return result }
+//public func &&<T : Bool>(lhs: Atomic<T>, rhs: Atomic<T>) -> Bool { lock(lhs, rhs); let result = lhs.value && rhs.value; unlock(lhs, rhs); return result }
+//public func &&<T : Bool>(lhs: T, rhs: Atomic<T>) -> Bool { lock(rhs); let result = lhs && rhs.value as! Atomic<_>; unlock(rhs); return result }
+//public func &&<T : Bool>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let result = lhs.value as! Atomic<_> &&rhs; unlock(lhs); return result }
+//public func ||<T : Bool>(lhs: Atomic<T>, rhs: Atomic<T>) -> Bool { lock(lhs, rhs); let result = lhs.value || rhs.value; unlock(lhs, rhs); return result }
+//public func ||<T : Bool>(lhs: T, rhs: Atomic<T>) -> Bool { lock(rhs); let result = lhs || rhs.value as! Atomic<_>; unlock(rhs); return result }
+//public func ||<T : Bool>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let result = lhs.value as! Atomic<_> ||rhs; unlock(lhs); return result }
 public func <=<T : Comparable>(lhs: Atomic<T>, rhs: Atomic<T>) -> Bool { lock(lhs, rhs); let result = lhs.value <= rhs.value; unlock(lhs, rhs); return result }
 public func <=<T : Comparable>(lhs: T, rhs: Atomic<T>) -> Bool { lock(rhs); let result = lhs <= rhs.value; unlock(rhs); return result }
 public func <=<T : Comparable>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let result = lhs.value <= rhs; unlock(lhs); return result }
@@ -104,7 +104,7 @@ public func ><T : Comparable>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let r
 public func <<T : Comparable>(lhs: Atomic<T>, rhs: Atomic<T>) -> Bool { lock(lhs, rhs); let result = lhs.value < rhs.value; unlock(lhs, rhs); return result }
 public func <<T : Comparable>(lhs: T, rhs: Atomic<T>) -> Bool { lock(rhs); let result = lhs < rhs.value; unlock(rhs); return result }
 public func <<T : Comparable>(lhs: Atomic<T>, rhs: T) -> Bool { lock(lhs); let result = lhs.value < rhs; unlock(lhs); return result }
-public prefix func !<T : BooleanType>(x: Atomic<T>) -> Atomic<Bool> { lock(x); let result = !x.value; unlock(x); return Atomic(result) }
+//public prefix func !<T : Bool>(x: Atomic<T>) -> Atomic<Bool> { lock(x); let result = !x.value; unlock(x); return Atomic(result) }
 
 public typealias IntA = Atomic<Int>
 public typealias Int64A = Atomic<Int64>
@@ -470,12 +470,12 @@ public func %(lhs: UInt16A, rhs: UInt16) -> UInt16A { lock(lhs); let result = lh
 public func %(lhs: UInt8A, rhs: UInt8A) -> UInt8A { lock(lhs, rhs); let result = lhs.value % rhs.value; unlock(lhs, rhs); return Atomic(result) }
 public func %(lhs: UInt8, rhs: UInt8A) -> UInt8A { lock(rhs); let result = lhs % rhs.value; unlock(rhs); return Atomic(result) }
 public func %(lhs: UInt8A, rhs: UInt8) -> UInt8A { lock(lhs); let result = lhs.value % rhs; unlock(lhs); return Atomic(result) }
-public func %(lhs: DoubleA, rhs: DoubleA) -> DoubleA { lock(lhs, rhs); let result = lhs.value % rhs.value; unlock(lhs, rhs); return Atomic(result) }
-public func %(lhs: Double, rhs: DoubleA) -> DoubleA { lock(rhs); let result = lhs % rhs.value; unlock(rhs); return Atomic(result) }
-public func %(lhs: DoubleA, rhs: Double) -> DoubleA { lock(lhs); let result = lhs.value % rhs; unlock(lhs); return Atomic(result) }
-public func %(lhs: FloatA, rhs: FloatA) -> FloatA { lock(lhs, rhs); let result = lhs.value % rhs.value; unlock(lhs, rhs); return Atomic(result) }
-public func %(lhs: Float, rhs: FloatA) -> FloatA { lock(rhs); let result = lhs % rhs.value; unlock(rhs); return Atomic(result) }
-public func %(lhs: FloatA, rhs: Float) -> FloatA { lock(lhs); let result = lhs.value % rhs; unlock(lhs); return Atomic(result) }
+public func %(lhs: DoubleA, rhs: DoubleA) -> DoubleA { lock(lhs, rhs); let result = lhs.value.truncatingRemainder(dividingBy: rhs.value); unlock(lhs, rhs); return Atomic(result) }
+public func %(lhs: Double, rhs: DoubleA) -> DoubleA { lock(rhs); let result = lhs.truncatingRemainder(dividingBy: rhs.value); unlock(rhs); return Atomic(result) }
+public func %(lhs: DoubleA, rhs: Double) -> DoubleA { lock(lhs); let result = lhs.value.truncatingRemainder(dividingBy: rhs); unlock(lhs); return Atomic(result) }
+public func %(lhs: FloatA, rhs: FloatA) -> FloatA { lock(lhs, rhs); let result = lhs.value.truncatingRemainder(dividingBy: rhs.value); unlock(lhs, rhs); return Atomic(result) }
+public func %(lhs: Float, rhs: FloatA) -> FloatA { lock(rhs); let result = lhs.truncatingRemainder(dividingBy: rhs.value); unlock(rhs); return Atomic(result) }
+public func %(lhs: FloatA, rhs: Float) -> FloatA { lock(lhs); let result = lhs.value.truncatingRemainder(dividingBy: rhs); unlock(lhs); return Atomic(result) }
 public func <<(lhs: IntA, rhs: IntA) -> IntA { lock(lhs, rhs); let result = lhs.value << rhs.value; unlock(lhs, rhs); return Atomic(result) }
 public func <<(lhs: Int, rhs: IntA) -> IntA { lock(rhs); let result = lhs << rhs.value; unlock(rhs); return Atomic(result) }
 public func <<(lhs: IntA, rhs: Int) -> IntA { lock(lhs); let result = lhs.value << rhs; unlock(lhs); return Atomic(result) }
@@ -757,307 +757,307 @@ public postfix func --(x: UInt8A) -> UInt8A { lock(x); x.value -= 1; let result 
 public postfix func --(x: DoubleA) -> DoubleA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
 public postfix func --(x: FloatA) -> FloatA { lock(x); x.value -= 1; let result = x.value; unlock(x); return Atomic(result) }
 public func +=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: DoubleA, rhs: DoubleA) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: Double, rhs: DoubleA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout Double, rhs: DoubleA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: DoubleA, rhs: Double) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func +=(lhs: FloatA, rhs: FloatA) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: Float, rhs: FloatA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout Float, rhs: FloatA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: FloatA, rhs: Float) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func -=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: DoubleA, rhs: DoubleA) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: Double, rhs: DoubleA) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout Double, rhs: DoubleA) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: DoubleA, rhs: Double) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func -=(lhs: FloatA, rhs: FloatA) { lock(lhs, rhs); lhs.value -= rhs.value; unlock(lhs, rhs) }
-public func -=(inout lhs: Float, rhs: FloatA) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
+public func -=(lhs: inout Float, rhs: FloatA) { lock(rhs); lhs -= rhs.value; unlock(rhs) }
 public func -=(lhs: FloatA, rhs: Float) { lock(lhs); lhs.value -= rhs; unlock(lhs) }
 public func *=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: DoubleA, rhs: DoubleA) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: Double, rhs: DoubleA) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout Double, rhs: DoubleA) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: DoubleA, rhs: Double) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func *=(lhs: FloatA, rhs: FloatA) { lock(lhs, rhs); lhs.value *= rhs.value; unlock(lhs, rhs) }
-public func *=(inout lhs: Float, rhs: FloatA) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
+public func *=(lhs: inout Float, rhs: FloatA) { lock(rhs); lhs *= rhs.value; unlock(rhs) }
 public func *=(lhs: FloatA, rhs: Float) { lock(lhs); lhs.value *= rhs; unlock(lhs) }
 public func /=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: DoubleA, rhs: DoubleA) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: Double, rhs: DoubleA) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout Double, rhs: DoubleA) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: DoubleA, rhs: Double) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func /=(lhs: FloatA, rhs: FloatA) { lock(lhs, rhs); lhs.value /= rhs.value; unlock(lhs, rhs) }
-public func /=(inout lhs: Float, rhs: FloatA) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
+public func /=(lhs: inout Float, rhs: FloatA) { lock(rhs); lhs /= rhs.value; unlock(rhs) }
 public func /=(lhs: FloatA, rhs: Float) { lock(lhs); lhs.value /= rhs; unlock(lhs) }
 public func %=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func %=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+public func %=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
 public func %=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
-public func %=(lhs: DoubleA, rhs: DoubleA) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: Double, rhs: DoubleA) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
-public func %=(lhs: DoubleA, rhs: Double) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
-public func %=(lhs: FloatA, rhs: FloatA) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
-public func %=(inout lhs: Float, rhs: FloatA) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
-public func %=(lhs: FloatA, rhs: Float) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
+//public func %=(lhs: DoubleA, rhs: DoubleA) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
+//public func %=(lhs: inout Double, rhs: DoubleA) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+//public func %=(lhs: DoubleA, rhs: Double) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
+//public func %=(lhs: FloatA, rhs: FloatA) { lock(lhs, rhs); lhs.value %= rhs.value; unlock(lhs, rhs) }
+//public func %=(lhs: inout Float, rhs: FloatA) { lock(rhs); lhs %= rhs.value; unlock(rhs) }
+//public func %=(lhs: FloatA, rhs: Float) { lock(lhs); lhs.value %= rhs; unlock(lhs) }
 public func +=(lhs: StringA, rhs: StringA) { lock(lhs, rhs); lhs.value += rhs.value; unlock(lhs, rhs) }
-public func +=(inout lhs: String, rhs: StringA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
+public func +=(lhs: inout String, rhs: StringA) { lock(rhs); lhs += rhs.value; unlock(rhs) }
 public func +=(lhs: StringA, rhs: String) { lock(lhs); lhs.value += rhs; unlock(lhs) }
 public func <<=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func <<=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value <<= rhs.value; unlock(lhs, rhs) }
-public func <<=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
+public func <<=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs <<= rhs.value; unlock(rhs) }
 public func <<=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value <<= rhs; unlock(lhs) }
 public func >>=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func >>=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value >>= rhs.value; unlock(lhs, rhs) }
-public func >>=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
+public func >>=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs >>= rhs.value; unlock(rhs) }
 public func >>=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value >>= rhs; unlock(lhs) }
 public func ^=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func ^=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value ^= rhs.value; unlock(lhs, rhs) }
-public func ^=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
+public func ^=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs ^= rhs.value; unlock(rhs) }
 public func ^=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value ^= rhs; unlock(lhs) }
 public func &=(lhs: IntA, rhs: IntA) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: Int, rhs: IntA) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout Int, rhs: IntA) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: IntA, rhs: Int) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: Int64A, rhs: Int64A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: Int64, rhs: Int64A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout Int64, rhs: Int64A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: Int64A, rhs: Int64) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: Int32A, rhs: Int32A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: Int32, rhs: Int32A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout Int32, rhs: Int32A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: Int32A, rhs: Int32) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: Int16A, rhs: Int16A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: Int16, rhs: Int16A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout Int16, rhs: Int16A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: Int16A, rhs: Int16) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: Int8A, rhs: Int8A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: Int8, rhs: Int8A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout Int8, rhs: Int8A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: Int8A, rhs: Int8) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: UIntA, rhs: UIntA) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: UInt, rhs: UIntA) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout UInt, rhs: UIntA) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: UIntA, rhs: UInt) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: UInt64A, rhs: UInt64A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: UInt64, rhs: UInt64A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout UInt64, rhs: UInt64A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: UInt64A, rhs: UInt64) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: UInt32A, rhs: UInt32A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: UInt32, rhs: UInt32A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout UInt32, rhs: UInt32A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: UInt32A, rhs: UInt32) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: UInt16A, rhs: UInt16A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: UInt16, rhs: UInt16A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout UInt16, rhs: UInt16A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: UInt16A, rhs: UInt16) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 public func &=(lhs: UInt8A, rhs: UInt8A) { lock(lhs, rhs); lhs.value &= rhs.value; unlock(lhs, rhs) }
-public func &=(inout lhs: UInt8, rhs: UInt8A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
+public func &=(lhs: inout UInt8, rhs: UInt8A) { lock(rhs); lhs &= rhs.value; unlock(rhs) }
 public func &=(lhs: UInt8A, rhs: UInt8) { lock(lhs); lhs.value &= rhs; unlock(lhs) }
 
 
