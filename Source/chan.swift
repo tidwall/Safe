@@ -121,8 +121,11 @@ open class Chan<T> : Sequence {
     }
 }
 
-
-infix operator <- { associativity right precedence 155 }
+precedencegroup ChannelPrecedence {
+    associativity: right
+    higherThan: MultiplicationPrecedence
+}
+infix operator <- : ChannelPrecedence
 prefix operator <-
 /// Send a message over a channel. Sending over a closed channel will raise a runtime exception.
 public func <-<T>(l: Chan<T>, r: T){

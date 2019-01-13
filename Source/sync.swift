@@ -117,7 +117,8 @@ open class Cond {
         gettimeofday(&tv, nil)
         ts.tv_sec = time(nil) + timeInMs / 1000
         let intermediate = 1000 * 1000 * (timeInMs % 1000)
-        ts.tv_nsec = Int(tv.tv_usec * 1000 + intermediate)
+        // I suspect this could have problems on a 32-bit system.
+        ts.tv_nsec = Int(Int(tv.tv_usec * 1000) + intermediate)
         ts.tv_sec += ts.tv_nsec / 1000000000
         ts.tv_nsec %= 1000000000
         if (pthread_cond_timedwait(&cond, &mutex.mutex, &ts) == 0) {
