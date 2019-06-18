@@ -23,14 +23,14 @@ import Foundation
 /// The WaitResult enum is used as a return value by Mutex.wait()
 public enum WaitResult {
     /// The wait resulted in a signal
-    case Signaled
+    case signaled
     /// The wait resulted in a timeout
-    case TimedOut
+    case timedOut
 }
 
 /// A Mutex is a mutual exclusion lock. 
-public class Mutex {
-    private var mutex = pthread_mutex_t()
+open class Mutex {
+    fileprivate var mutex = pthread_mutex_t()
     /// Returns a new Mutex.
     public init(){
         pthread_mutex_init(&mutex, nil)
@@ -39,7 +39,7 @@ public class Mutex {
         pthread_mutex_destroy(&mutex)
     }
     /// Locks the mutex. If the lock is already in use, the calling operation blocks until the mutex is available.
-    public func lock(){
+    open func lock(){
         pthread_mutex_lock(&mutex)
     }
     /**
@@ -48,13 +48,13 @@ public class Mutex {
     A locked Mutex is not associated with a particular operation. 
     It is allowed for one operation to lock a Mutex and then arrange for another operation to unlock it.
     */
-    public func unlock(){
+    open func unlock(){
         pthread_mutex_unlock(&mutex)
     }
     
     /// Locks the mutex before calling the function. Unlocks after closure is completed
     /// - Parameter: closure Closure function
-    public func lock(closure : ()->()) {
+    open func lock(_ closure : ()->()) {
         lock()
         closure()
         unlock()
@@ -66,9 +66,9 @@ public class Mutex {
 
 Each `Cond` has an associated `Mutex`, which must be held when changing the condition and when calling the `wait` method.
 */
-public class Cond {
-    private var cond = pthread_cond_t()
-    public let mutex : Mutex
+open class Cond {
+    fileprivate var cond = pthread_cond_t()
+    open let mutex : Mutex
     ///  Returns a new Cond.
     /// - Parameter mutex: A Mutex object.
     public init(_ mutex : Mutex){
@@ -79,11 +79,11 @@ public class Cond {
         pthread_cond_destroy(&cond)
     }
     /// Wakes all operations waiting on `Cond`.
-    public func broadcast() {
+    open func broadcast() {
         pthread_cond_broadcast(&cond)
     }
     /// Wakes one operations waiting on `Cond`.
-    public func signal() {
+    open func signal() {
         pthread_cond_signal(&cond)
     }
     /**
@@ -106,10 +106,10 @@ public class Cond {
     */
     /// - Parameter timeout: The length of time to wait. Default is forever.
     /// - Returns: WaitResult
-    public func wait(timeout : NSTimeInterval = -1) -> WaitResult {
+    open func wait(_ timeout : TimeInterval = -1) -> WaitResult {
         if timeout < 0 {
             pthread_cond_wait(&cond, &mutex.mutex)
-            return .Signaled
+            return .signaled
         }
         let timeInMs = Int(timeout * 1000)
         var tv = timeval()
@@ -117,20 +117,21 @@ public class Cond {
         gettimeofday(&tv, nil)
         ts.tv_sec = time(nil) + timeInMs / 1000
         let intermediate = 1000 * 1000 * (timeInMs % 1000)
-        ts.tv_nsec = Int(tv.tv_usec * 1000 + intermediate)
+        // I suspect this could have problems on a 32-bit system.
+        ts.tv_nsec = Int(Int(tv.tv_usec * 1000) + intermediate)
         ts.tv_sec += ts.tv_nsec / 1000000000
         ts.tv_nsec %= 1000000000
         if (pthread_cond_timedwait(&cond, &mutex.mutex, &ts) == 0) {
-            return .Signaled
+            return .signaled
         }
-        return .TimedOut
+        return .timedOut
     }
 }
 
 /// Once is an object that will perform exactly one action.
-public class Once {
-    private var mutex = Mutex()
-    private var oncer = false
+open class Once {
+    fileprivate var mutex = Mutex()
+    fileprivate var oncer = false
     ///  Returns a new Once.
     public init() {}
     /**
@@ -146,7 +147,7 @@ public class Once {
     This method is intended for initialization that must be run exactly once.
     */
     /// - Parameter action: An action function.
-    public func doit(action: ()->()) {
+    open func doit(_ action: ()->()) {
         mutex.lock()
         defer { mutex.unlock() }
         if oncer{
@@ -163,9 +164,9 @@ public class Once {
     Then each of the operations runs and calls 'done' when finished.
     At the same time, 'wait' can be used to block until all operations have finished.
 */
-public class WaitGroup {
-    private var cond = Cond(Mutex())
-    private var count = 0
+open class WaitGroup {
+    fileprivate var cond = Cond(Mutex())
+    fileprivate var count = 0
     ///  Returns a new WaitGroup.
     public init() {}
     /**
@@ -177,7 +178,7 @@ public class WaitGroup {
     Calls with a negative delta, or calls with a positive delta that start when the counter is greater than zero, may happen at any time. 
     Typically this means the calls to 'add' should execute before the statement creating the operation or other event to be waited for.
     */
-    public func add(delta: Int) {
+    open func add(_ delta: Int) {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         count += delta
@@ -185,17 +186,17 @@ public class WaitGroup {
             #if os(Linux)
             assertionFailure("negative WaitGroup counter")
             #else
-            NSException.raise("Exception", format: "negative WaitGroup counter", arguments: getVaList([]))
+            NSException.raise(NSExceptionName(rawValue: "Exception"), format: "negative WaitGroup counter", arguments: getVaList([]))
             #endif
         }
         cond.broadcast()
     }
     /// Decrements the WaitGroup counter.
-    public func done() {
+    open func done() {
         add(-1)
     }
     /// Blocks until the WaitGroup counter is Zero.
-    public func wait() {
+    open func wait() {
         cond.mutex.lock()
         defer { cond.mutex.unlock() }
         while count > 0 {

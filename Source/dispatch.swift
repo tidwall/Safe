@@ -20,22 +20,18 @@ import Glibc
 
 import Foundation
 
-private let pt_entry: @convention(c) (UnsafeMutablePointer<Void>) -> UnsafeMutablePointer<Void> = { (ctx) in
-    let np = UnsafeMutablePointer<()->()>(ctx)
-    np.memory()
-    np.destroy()
-    np.dealloc(1)
-    return nil
-}
-
 /// A `dispatch` statement starts the execution of an action as an independent concurrent thread of control within the same address space.
-public func dispatch(action: ()->()){
-    let p = UnsafeMutablePointer<()->()>.alloc(1)
-    p.initialize(action)
-    var t : pthread_t = nil
-    pthread_create(&t, nil, pt_entry, p)
-    pthread_detach(t)
+public func dispatch(_ action: @escaping ()->()){
+    let p = UnsafeMutablePointer<()->()>.allocate(capacity: 1)
+    p.initialize(to: action)
+    var t : pthread_t? = nil
+    pthread_create(&t, nil, { ctx in
+        let np = ctx.bindMemory(to: (()->()).self, capacity: 1)
+        (np.pointee)()
+        np.deinitialize(count: 1)
+        np.deallocate()
+        return nil
+    }, p)
+    pthread_detach(t!)
 }
-
-
 
